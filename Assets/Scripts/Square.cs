@@ -17,6 +17,8 @@ public class Square : MonoBehaviour {
     int maxExtraJumps;
     int nbExtraJumps;
 
+    Vector3 scale;
+
     enum forms {Water, Air, Fire, Earth};
     forms currentForm;
     
@@ -26,6 +28,8 @@ public class Square : MonoBehaviour {
         nbExtraJumps = maxExtraJumps;
         currentForm = forms.Water;
         GetComponent<Renderer>().material.color = Color.blue;
+
+        scale = transform.localScale;
     }
 	
 	void Update ()
@@ -37,16 +41,16 @@ public class Square : MonoBehaviour {
 
         if(Input.GetAxisRaw("Horizontal") == 1)
         {
-            transform.localScale = new Vector3(1, 1, 1);
+            transform.localScale = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
         }
         else if(Input.GetAxisRaw("Horizontal") == -1)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && nbExtraJumps != 0)
         {
-            rigidBody.velocity = new Vector3(0, jumpHeight, 0);
+            rigidBody.AddForce(new Vector2(0, jumpHeight));
             nbExtraJumps--;
         }
 
