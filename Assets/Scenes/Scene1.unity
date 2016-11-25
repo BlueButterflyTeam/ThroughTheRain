@@ -196,16 +196,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 910496607}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7b01ebb106ad2c45a9b408160d674f4, type: 3}
+  m_Script: {fileID: 11500000, guid: f53bdbc7d899d8049bb2216b6edbaa27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 2
-  jumpHeight: 6
-  groundPoint: {fileID: 1835197321}
-  radius: 0.1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
+  moveSpeed: 0
+  jumpHeight: 0
 --- !u!1 &1038729634
 GameObject:
   m_ObjectHideFlags: 0
