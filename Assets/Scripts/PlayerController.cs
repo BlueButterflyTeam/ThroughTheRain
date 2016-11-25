@@ -1,73 +1,74 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Square : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     public float moveSpeed;
     public float jumpHeight;
 
-    public Transform groundPoint;
-    public float radius;
-    public LayerMask groundMask;
-
     bool isGrounded;
-
-    Rigidbody2D rigidBody;
-
-    int maxExtraJumps;
-    int nbExtraJumps;
 
     Vector3 scale;
 
-    enum forms {Water, Air, Fire, Earth};
+    int maxNbJumps;
+    int jumpsRemaining;
+
+    Rigidbody2D rigidBody;
+
+    enum forms { Water, Air, Fire, Earth };
     forms currentForm;
-    
-	void Start () {
+
+    void Start()
+    {
+        maxNbJumps = 1;
+        isGrounded = true;
+        scale = transform.localScale;
         rigidBody = GetComponent<Rigidbody2D>();
-        maxExtraJumps = 1;
-        nbExtraJumps = maxExtraJumps;
         currentForm = forms.Water;
         GetComponent<Renderer>().material.color = Color.blue;
-
-        scale = transform.localScale;
+        jumpsRemaining = maxNbJumps;
     }
-	
-	void Update ()
+
+    void FixedUpdate()
     {
-        Vector2 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
+        Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
         rigidBody.velocity = moveDirection;
 
-        isGrounded = Physics2D.OverlapCircle(groundPoint.position, radius, groundMask);
-
-        if(Input.GetAxisRaw("Horizontal") == 1)
+        if (Input.GetAxisRaw("Horizontal") == 1)
         {
             transform.localScale = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
         }
-        else if(Input.GetAxisRaw("Horizontal") == -1)
+        else if (Input.GetAxisRaw("Horizontal") == -1)
         {
-            transform.localScale = new Vector3(-Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
+            transform.localScale = new Vector3(-1 * Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space) && nbExtraJumps != 0)
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
             rigidBody.AddForce(new Vector2(0, jumpHeight));
-            nbExtraJumps--;
+            jumpsRemaining--;
         }
-
-        if(isGrounded)
-        {
-            nbExtraJumps = maxExtraJumps;
-        }
-
         if (Input.GetKeyDown(KeyCode.Q))
         {
             changeForm();
         }
     }
 
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+        {
+            jumpsRemaining = maxNbJumps;
+        }
+    }
+
     void changeForm()
     {
-        if(currentForm == forms.Earth)
+        if (currentForm == forms.Earth)
         {
             currentForm = forms.Water;
         }
@@ -75,26 +76,27 @@ public class Square : MonoBehaviour {
         {
             currentForm++;
         }
-        if(currentForm == forms.Water)
+        if (currentForm == forms.Water)
         {
             GetComponent<Renderer>().material.color = Color.blue;
-            maxExtraJumps = 1;
+            maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
         {
             GetComponent<Renderer>().material.color = Color.white;
-            maxExtraJumps = 2;
+            maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
         {
             GetComponent<Renderer>().material.color = Color.red;
-            maxExtraJumps = 1;
+            maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)
         {
             GetComponent<Renderer>().material.color = Color.gray;
-            maxExtraJumps = 1;
+            maxNbJumps = 1;
         }
+        jumpsRemaining = maxNbJumps;
     }
 
 }

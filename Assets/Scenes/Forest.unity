@@ -481,16 +481,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 212135256}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7b01ebb106ad2c45a9b408160d674f4, type: 3}
+  m_Script: {fileID: 11500000, guid: f53bdbc7d899d8049bb2216b6edbaa27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 20
   jumpHeight: 1000
-  groundPoint: {fileID: 2065104471}
-  radius: 0.1
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
 --- !u!50 &212135258
 Rigidbody2D:
   serializedVersion: 2
@@ -507,7 +502,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 0
 --- !u!212 &212135259
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -553,7 +548,6 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 2065104471}
-  - {fileID: 664816669}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!61 &212135261
@@ -582,7 +576,7 @@ GameObject:
   - 60: {fileID: 374679110}
   m_Layer: 8
   m_Name: stage1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -822,7 +816,7 @@ GameObject:
   - 60: {fileID: 441973331}
   m_Layer: 8
   m_Name: stage5
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1380,6 +1374,7 @@ GameObject:
   - 92: {fileID: 664816667}
   - 124: {fileID: 664816666}
   - 81: {fileID: 664816665}
+  - 114: {fileID: 664816670}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1427,7 +1422,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 75
-  orthographic: 0
+  orthographic: 1
   orthographic size: 9
   m_Depth: -1
   m_CullingMask:
@@ -1449,12 +1444,25 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 664816664}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: -1.8, y: 23, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children: []
-  m_Father: {fileID: 212135260}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+--- !u!114 &664816670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 664816664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e399309a3aa1f16499d7b9478f08a179, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 212135260}
+  distance: 9
 --- !u!1 &743541383
 GameObject:
   m_ObjectHideFlags: 0
@@ -1560,7 +1568,7 @@ GameObject:
   - 60: {fileID: 771307946}
   m_Layer: 8
   m_Name: stage4
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1850,7 +1858,7 @@ GameObject:
   - 60: {fileID: 863356683}
   m_Layer: 8
   m_Name: stage2
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2471,7 +2479,7 @@ GameObject:
   - 60: {fileID: 1189821870}
   m_Layer: 8
   m_Name: stage3
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2919,7 +2927,7 @@ GameObject:
   - 4: {fileID: 1910538610}
   m_Layer: 8
   m_Name: stage
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
