@@ -9,5 +9,18 @@ public class WaterDetector : MonoBehaviour {
         {
           transform.parent.GetComponent<Water>().Splash(transform.position.x, Hit.GetComponent<Rigidbody2D>().velocity.y*Hit.GetComponent<Rigidbody2D>().mass / 40f);
         }
+        if(Hit.name == "player")
+        {
+                Hit.GetComponent<PlayerController>().setInWater(true);
+            
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D Hit)
+    {
+        if (Hit.name == "player")
+        {
+            Hit.GetComponent<PlayerController>().setInWater(false);
+        }
     }
 }

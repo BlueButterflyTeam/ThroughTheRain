@@ -24,7 +24,7 @@ public class FireScript : MonoBehaviour {
             if (col.collider.GetComponent<PlayerController>().getForm() != "Fire")
             {
                 col.collider.GetComponent<PlayerController>().getHit();
-            }            
+            }         
         }
     }
 }
