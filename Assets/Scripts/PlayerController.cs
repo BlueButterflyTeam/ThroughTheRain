@@ -64,7 +64,6 @@ public class PlayerController : MonoBehaviour
     {
         if(isCharging)
         {
-            timer += Time.deltaTime;
             if (facingRight)
             {
                 rigidBody.AddForce(new Vector3(25, 0, 0));
@@ -73,10 +72,7 @@ public class PlayerController : MonoBehaviour
             {
                 rigidBody.AddForce(new Vector3(-25, 0, 0));
             }
-            if(timer >= 2f)
-            {
-                stopCharge();
-            }
+            StartCoroutine(stopCharge());
         }
         else if(keysEnabled)
         {
@@ -243,8 +239,10 @@ public class PlayerController : MonoBehaviour
         keysEnabled = false;
     }
 
-    public void stopCharge()
+    public IEnumerator stopCharge()
     {
+        yield return new WaitForSeconds(1);
+
         isCharging = false;
         GetComponent<Renderer>().material.color = Color.white;
         keysEnabled = true;
@@ -257,7 +255,9 @@ public class PlayerController : MonoBehaviour
 
     public void getHit()
     {
+        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
         StartCoroutine(KnockBack());
+
         if (life > 0)
         {            
             life--;
@@ -277,24 +277,11 @@ public class PlayerController : MonoBehaviour
 
     public IEnumerator KnockBack()
     {
-        float timer = 0;
         keysEnabled = false;
-        while (timer < 0.2)
-        {
-            timer += Time.deltaTime;
-            if (facingRight)
-            {
-                rigidBody.velocity = new Vector2(0, 0);
-                rigidBody.AddForce(new Vector2(-300, 10));
-            }
-            else
-            {
-                rigidBody.velocity = new Vector2(0, 0);
-                rigidBody.AddForce(new Vector2(300, 10));
-            }
-        }
-        keysEnabled = true;
-        yield return 0;            
+
+        yield return new WaitForSeconds(1);
+
+        keysEnabled = true;        
     }
 
     public void setInWater(bool Boolean)
