@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
 
     public GameWorldState gameWorld;
 
+    bool isCharging = false;
+    float timer;
+
     int numberOfForms;
 
     GameObject rightBullet;
@@ -59,7 +62,23 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(keysEnabled)
+        if(isCharging)
+        {
+            timer += Time.deltaTime;
+            if (facingRight)
+            {
+                rigidBody.AddForce(new Vector3(25, 0, 0));
+            }
+            else
+            {
+                rigidBody.AddForce(new Vector3(-25, 0, 0));
+            }
+            if(timer >= 2f)
+            {
+                stopCharge();
+            }
+        }
+        else if(keysEnabled)
         {
             Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
             rigidBody.velocity = moveDirection;
@@ -69,6 +88,8 @@ public class PlayerController : MonoBehaviour
                 if (currentForm == forms.Fire)
                 {
                     life = 0;
+                    updateHearts();
+                    die();
                 }
                 else if(currentForm == forms.Air)
                 {
@@ -115,7 +136,14 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                fire();
+                if(currentForm != forms.Earth)
+                {
+                    fire();
+                }
+                else
+                {
+                    startCharge();                 
+                }
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -150,8 +178,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = waterSprite;
-            rightBullet = Resources.Load("RightWater") as GameObject;
-            leftBullet = Resources.Load("LeftWater") as GameObject;
+            rightBullet = Resources.Load("RightWaterBullet") as GameObject;
+            leftBullet = Resources.Load("LeftWaterBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
@@ -160,8 +188,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = airSprite;
-            rightBullet = Resources.Load("RightAir") as GameObject;
-            leftBullet = Resources.Load("LeftAir") as GameObject;
+            rightBullet = Resources.Load("RightAirBullet") as GameObject;
+            leftBullet = Resources.Load("LeftAirBullet") as GameObject;
             maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
@@ -178,8 +206,8 @@ public class PlayerController : MonoBehaviour
             }
 
             GetComponent<SpriteRenderer>().sprite = fireSprite;
-            rightBullet = Resources.Load("RightFire") as GameObject;
-            leftBullet = Resources.Load("LeftFire") as GameObject;
+            rightBullet = Resources.Load("RightFireBullet") as GameObject;
+            leftBullet = Resources.Load("LeftFireBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)
@@ -198,17 +226,28 @@ public class PlayerController : MonoBehaviour
 
     void fire()
     {
-        if (currentForm != forms.Earth)
+        if (facingRight)
         {
-            if (facingRight)
-            {
-                Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
+            Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
         }
+        else
+        {
+            Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+    }
+
+    void startCharge()
+    {
+        isCharging = true;
+        GetComponent<Renderer>().material.color = Color.red;
+        keysEnabled = false;
+    }
+
+    public void stopCharge()
+    {
+        isCharging = false;
+        GetComponent<Renderer>().material.color = Color.white;
+        keysEnabled = true;
     }
 
     int getLife()
@@ -220,20 +259,9 @@ public class PlayerController : MonoBehaviour
     {
         StartCoroutine(KnockBack());
         if (life > 0)
-        {
-            if(life == 1)
-            {
-                heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life == 2)
-            {
-                heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life >= 3)
-            {
-                heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
+        {            
             life--;
+            updateHearts();
         }
 
         if(life == 0)
@@ -247,16 +275,25 @@ public class PlayerController : MonoBehaviour
         return currentForm.ToString();
     }
 
-    IEnumerator KnockBack()
+    public IEnumerator KnockBack()
     {
         float timer = 0;
-
-        while(timer < 0.05f)
+        keysEnabled = false;
+        while (timer < 0.2)
         {
             timer += Time.deltaTime;
-
-            rigidBody.AddForce(new Vector3(rigidBody.velocity.x * -100, rigidBody.velocity.y * -5, transform.position.z));
+            if (facingRight)
+            {
+                rigidBody.velocity = new Vector2(0, 0);
+                rigidBody.AddForce(new Vector2(-300, 10));
+            }
+            else
+            {
+                rigidBody.velocity = new Vector2(0, 0);
+                rigidBody.AddForce(new Vector2(300, 10));
+            }
         }
+        keysEnabled = true;
         yield return 0;            
     }
 
@@ -268,6 +305,11 @@ public class PlayerController : MonoBehaviour
     public bool isPlayerInWater()
     {
         return isInWater;
+    }
+
+    public bool isPlayerCharging()
+    {
+        return isCharging;
     }
 
     private void environmentalPower()
@@ -324,6 +366,25 @@ public class PlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+    }
+
+    void updateHearts()
+    {
+        if (life == 0)
+        {
+            heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life == 1)
+        {
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life >= 2)
+        {
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
     }
 }
 
