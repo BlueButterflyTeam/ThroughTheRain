@@ -3,7 +3,7 @@ using System.Collections;
 
 public class GameWorldState : MonoBehaviour {
 
-    enum forms { Water, Air, Fire, Earth };
+    public int numberOfFormsInLevel;
 
     void Start () {
 	
@@ -12,7 +12,4 @@ public class GameWorldState : MonoBehaviour {
 	void Update () {
 	
 	}
-
-    
-
 }
