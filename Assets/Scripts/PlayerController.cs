@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     public GameWorldState gameWorld;
 
     bool isCharging = false;
+    bool smashing = false;
     float timer;
 
     int numberOfForms;
@@ -78,8 +79,25 @@ public class PlayerController : MonoBehaviour
                 stopCharge();
             }
         }
+        else if(smashing)
+        {           
+            rigidBody.AddForce(new Vector2(0, -50));
+            if (jumpsRemaining == maxNbJumps)
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                smashing = false;
+                keysEnabled = true;
+            }
+        }
         else if(keysEnabled)
         {
+            if (Input.GetKeyDown(KeyCode.S) && (currentForm == forms.Earth) && (jumpsRemaining < maxNbJumps))
+            {
+                GetComponent<Renderer>().material.color = Color.red;
+                rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+                smashing = true;
+                keysEnabled = false;
+            }
             Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
             rigidBody.velocity = moveDirection;
 
@@ -348,10 +366,10 @@ public class PlayerController : MonoBehaviour
         gameOverText.gameObject.SetActive(true);
         keysEnabled = false;
 
-        StartCoroutine(Wait(3));
+        StartCoroutine(Respawn(3));
     }
 
-    private IEnumerator Wait(float time)
+    private IEnumerator Respawn(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -368,7 +386,12 @@ public class PlayerController : MonoBehaviour
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
     }
 
-    void updateHearts()
+    private IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
+
+        void updateHearts()
     {
         if (life == 0)
         {
