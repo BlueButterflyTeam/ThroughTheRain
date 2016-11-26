@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public Sprite fireSprite;
     public Sprite earthSprite;
 
+    int numberOfForms;
+
     GameObject rightBullet;
     GameObject leftBullet;
 
@@ -43,6 +45,9 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody2D>();
         changeForm(forms.Water);
         jumpsRemaining = maxNbJumps;
+        numberOfForms = gameWorld.GetComponent<GameWorldState>().numberOfFormsInLevel;
+
+        print(numberOfForms);
     }
 
     void FixedUpdate()
@@ -84,15 +89,15 @@ public class PlayerController : MonoBehaviour
         {
             changeForm(forms.Water);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha2) && numberOfForms >= 2)
         {
             changeForm(forms.Air);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha3) && numberOfForms >= 3)
         {
             changeForm(forms.Earth);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha4) && numberOfForms >= 4)
         {
             changeForm(forms.Fire);
         }
