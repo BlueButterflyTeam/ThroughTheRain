@@ -88,6 +88,8 @@ public class PlayerController : MonoBehaviour
                 if (currentForm == forms.Fire)
                 {
                     life = 0;
+                    updateHearts();
+                    die();
                 }
                 else if(currentForm == forms.Air)
                 {
@@ -257,20 +259,9 @@ public class PlayerController : MonoBehaviour
     {
         StartCoroutine(KnockBack());
         if (life > 0)
-        {
-            if(life == 1)
-            {
-                heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life == 2)
-            {
-                heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life >= 3)
-            {
-                heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
+        {            
             life--;
+            updateHearts();
         }
 
         if(life == 0)
@@ -375,6 +366,25 @@ public class PlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+    }
+
+    void updateHearts()
+    {
+        if (life == 0)
+        {
+            heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life == 1)
+        {
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life >= 2)
+        {
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
     }
 }
 
