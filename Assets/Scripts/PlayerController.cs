@@ -256,18 +256,21 @@ public class PlayerController : MonoBehaviour
     public void getHit()
     {
         rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
-        StartCoroutine(KnockBack());
+        
 
         if (life > 0)
         {            
             life--;
             updateHearts();
+            
         }
 
         if(life == 0)
         {
             die();
         }
+        else
+            StartCoroutine(KnockBack());
     }
 
     public string getForm()
@@ -304,8 +307,10 @@ public class PlayerController : MonoBehaviour
         switch (currentForm)
         {
             case forms.Air:
+                
                 break;
             case forms.Earth:
+                GameObject.Find("Main Camera").GetComponent<CameraScript>().shake(1);
                 break;
             case forms.Fire:
                 break;
