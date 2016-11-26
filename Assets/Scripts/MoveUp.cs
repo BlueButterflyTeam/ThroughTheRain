@@ -3,7 +3,6 @@ using System.Collections;
 
 public class MoveUp : MonoBehaviour
 {
-
     private bool movingUp = false;
     private bool moved = false;
 

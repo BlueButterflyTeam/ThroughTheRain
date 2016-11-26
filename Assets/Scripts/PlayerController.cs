@@ -322,6 +322,9 @@ public class PlayerController : MonoBehaviour
 
     private void environmentalPower()
     {
+        int size;
+        GameObject[] objects;
+
         switch (currentForm)
         {
             case forms.Air:
@@ -329,6 +332,20 @@ public class PlayerController : MonoBehaviour
                 break;
             case forms.Earth:
                 GameObject.Find("Main Camera").GetComponent<CameraScript>().shake(1);
+
+                objects = GameObject.FindGameObjectsWithTag("Destructible");
+
+                size = objects.Length;
+                
+                for (int i = 0; i < size; i++)
+                {
+                    GameObject obj = objects[i];
+                    if (obj.GetComponent<Renderer>().isVisible)
+                    {
+                        obj.GetComponent<BreakObjects>().breakObject();
+                    }
+                }
+
                 break;
             case forms.Fire:
                 break;
@@ -336,9 +353,9 @@ public class PlayerController : MonoBehaviour
                 Object rainFX = Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
                 Destroy(rainFX, 3);
 
-                GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
+                objects = GameObject.FindGameObjectsWithTag("Rain");
 
-                int size = objects.Length;
+                size = objects.Length;
                 
                 for (int i = 0; i < size; i++)
                 {
