@@ -14,6 +14,6 @@ public class BreakObjects : MonoBehaviour {
 
         gameObject.GetComponent<Rigidbody2D>().isKinematic = false;
 
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 5f);
     }
 }

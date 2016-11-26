@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoxScipt : MonoBehaviour
+public class BoxScript : MonoBehaviour
 {
 
 	void OnTriggerEnter2D(Collider2D collider)
