@@ -10,7 +10,7 @@ public class FireScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        if(collider.name.Contains("player"))
+        if(collider.name.Contains("Player"))
         {
             if (collider.GetComponent<PlayerController>().getForm() != "Fire")
             {
