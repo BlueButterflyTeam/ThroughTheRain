@@ -24,7 +24,7 @@ GameObject:
   - 50: {fileID: 50000011532750316}
   - 114: {fileID: 114000011164854468}
   m_Layer: 0
-  m_Name: RightWater
+  m_Name: RightWaterBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -7,7 +7,7 @@ public class FireScript : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collider)
     {
         print("salut");
-        if (collider.name.Contains("ater"))
+        if (collider.name.Contains("Water"))
         {
             print("toto");
             Destroy(gameObject);

@@ -139,8 +139,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = waterSprite;
-            rightBullet = Resources.Load("RightWater") as GameObject;
-            leftBullet = Resources.Load("LeftWater") as GameObject;
+            rightBullet = Resources.Load("RightWaterBullet") as GameObject;
+            leftBullet = Resources.Load("LeftWaterBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
@@ -149,8 +149,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = airSprite;
-            rightBullet = Resources.Load("RightAir") as GameObject;
-            leftBullet = Resources.Load("LeftAir") as GameObject;
+            rightBullet = Resources.Load("RightAirBullet") as GameObject;
+            leftBullet = Resources.Load("LeftAirBullet") as GameObject;
             maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
@@ -167,8 +167,8 @@ public class PlayerController : MonoBehaviour
             }
 
             GetComponent<SpriteRenderer>().sprite = fireSprite;
-            rightBullet = Resources.Load("RightFire") as GameObject;
-            leftBullet = Resources.Load("LeftFire") as GameObject;
+            rightBullet = Resources.Load("RightFireBullet") as GameObject;
+            leftBullet = Resources.Load("LeftFireBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)

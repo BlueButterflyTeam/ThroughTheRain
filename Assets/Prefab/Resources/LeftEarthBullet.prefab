@@ -24,7 +24,7 @@ GameObject:
   - 50: {fileID: 50000013797574248}
   - 114: {fileID: 114000013377838320}
   m_Layer: 0
-  m_Name: LeftEarth
+  m_Name: LeftEarthBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
