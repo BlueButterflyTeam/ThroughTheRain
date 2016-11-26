@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
             }
             else if(currentForm == forms.Air)
             {
-                rigidBody.AddForce(new Vector3(0, 75, 0));
+                rigidBody.AddForce(new Vector3(0, 13, 0));
             }
         }
         if (Input.GetAxisRaw("Horizontal") == 1)
