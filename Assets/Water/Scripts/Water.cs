@@ -219,4 +219,20 @@ public class Water : MonoBehaviour
         //Finally we update the meshes to reflect this
         UpdateMeshes();
     }
+
+    void OnTriggerEnter2D(Collider2D Hit)
+    {
+        if (Hit.name == "player")
+        {
+            Hit.GetComponent<PlayerController>().setInWater(true);
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D Hit)
+    {
+        if (Hit.name == "player")
+        {
+            Hit.GetComponent<PlayerController>().setInWater(false);
+        }
+    }
 }

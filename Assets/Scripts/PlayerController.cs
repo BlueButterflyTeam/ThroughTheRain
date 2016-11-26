@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
             }
             else if(currentForm == forms.Air)
             {
-                rigidBody.AddForce(new Vector3(0, 75, 0));
+                rigidBody.AddForce(new Vector3(0, 13, 0));
             }
         }
         if (Input.GetAxisRaw("Horizontal") == 1)
@@ -125,13 +125,19 @@ public class PlayerController : MonoBehaviour
     {
         currentForm = form;
 
+        try
+        {
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
+        }
+        catch
+        {
+        }
+
         if (currentForm == forms.Water)
         {
-            try
-            {
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
-            }
-            catch { }
+            moveSpeed = 9;
+            jumpHeight = 350;
+
             GetComponent<SpriteRenderer>().sprite = waterSprite;
             rightBullet = Resources.Load("RightWater") as GameObject;
             leftBullet = Resources.Load("LeftWater") as GameObject;
@@ -139,11 +145,9 @@ public class PlayerController : MonoBehaviour
         }
         if (currentForm == forms.Air)
         {
-            try
-            {
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
-            }
-            catch { }
+            moveSpeed = 12;
+            jumpHeight = 350;
+
             GetComponent<SpriteRenderer>().sprite = airSprite;
             rightBullet = Resources.Load("RightAir") as GameObject;
             leftBullet = Resources.Load("LeftAir") as GameObject;
@@ -151,11 +155,17 @@ public class PlayerController : MonoBehaviour
         }
         if (currentForm == forms.Fire)
         {
+            moveSpeed = 9;
+            jumpHeight = 350;
+
             try
             {
                 Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>());
             }
-            catch { }
+            catch
+            {
+            }
+
             GetComponent<SpriteRenderer>().sprite = fireSprite;
             rightBullet = Resources.Load("RightFire") as GameObject;
             leftBullet = Resources.Load("LeftFire") as GameObject;
@@ -163,11 +173,9 @@ public class PlayerController : MonoBehaviour
         }
         if (currentForm == forms.Earth)
         {
-            try
-            {
-                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
-            }
-            catch { }
+            moveSpeed = 5;
+            jumpHeight = 200;
+
             GetComponent<SpriteRenderer>().sprite = earthSprite;
             maxNbJumps = 1;
         }
