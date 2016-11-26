@@ -31,6 +31,14 @@ public class MoveUp : MonoBehaviour
 
     public void moveUp()
     {
+        StartCoroutine(ExecuteAfterTime(1));
+    }
+
+    IEnumerator ExecuteAfterTime(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        // Code to execute after the delay
         if (!moved)
         {
             this.movingUp = true;
