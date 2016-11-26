@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
 
     int life;
 
+    public GameObject rainPrefab;
+
     void Start()
     {
         life = 3;
@@ -265,6 +267,9 @@ public class PlayerController : MonoBehaviour
             case forms.Fire:
                 break;
             case forms.Water:
+                Object rainFX = Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
+                Destroy(rainFX, 3);
+
                 GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
 
                 int size = objects.Length;
