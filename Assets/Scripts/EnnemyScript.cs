@@ -19,11 +19,11 @@ public class EnnemyScript : MonoBehaviour {
         {
             if(collider.transform.position.x > transform.position.x)
                 {
-                transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(-50, 0));
+                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(-5, 0);
             }
             else
             {
-                transform.GetComponent<Rigidbody2D>().AddForce(new Vector2(50, 0));
+                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(5, 0);
             }
             
         }
