@@ -68,8 +68,8 @@ public class Water : MonoBehaviour
         float top = transform.position.y;
 
         gameObject.AddComponent<BoxCollider2D>();
-        gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(left + width / 2, depth / 2);
-        gameObject.GetComponent<BoxCollider2D>().size = new Vector2(width, depth);
+        gameObject.GetComponent<BoxCollider2D>().offset = new Vector2(width /2, depth /2);
+        gameObject.GetComponent<BoxCollider2D>().size = new Vector2(width, -depth);
         gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
 
         //Calculating the number of edges and nodes we have
