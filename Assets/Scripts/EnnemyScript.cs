@@ -38,7 +38,16 @@ public class EnnemyScript : MonoBehaviour {
     {
          if ((collider.collider.name.Contains("player")))
         {
-            collider.collider.GetComponent<PlayerController>().getHit();
+            if (collider.collider.GetComponent<PlayerController>().isPlayerCharging())
+            {
+                collider.collider.GetComponent<PlayerController>().stopCharge();
+                StartCoroutine(collider.collider.GetComponent<PlayerController>().KnockBack());
+                Destroy(gameObject);
+            }
+            else
+            {
+                collider.collider.GetComponent<PlayerController>().getHit();
+            }
         }
     }
 }

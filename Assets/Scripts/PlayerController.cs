@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour
 
     public GameWorldState gameWorld;
 
+    bool isCharging = false;
+    float timer;
+
     int numberOfForms;
 
     GameObject rightBullet;
@@ -59,7 +62,23 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(keysEnabled)
+        if(isCharging)
+        {
+            timer += Time.deltaTime;
+            if (facingRight)
+            {
+                rigidBody.AddForce(new Vector3(25, 0, 0));
+            }
+            else
+            {
+                rigidBody.AddForce(new Vector3(-25, 0, 0));
+            }
+            if(timer >= 2f)
+            {
+                stopCharge();
+            }
+        }
+        else if(keysEnabled)
         {
             Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
             rigidBody.velocity = moveDirection;
@@ -115,7 +134,14 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                fire();
+                if(currentForm != forms.Earth)
+                {
+                    fire();
+                }
+                else
+                {
+                    startCharge();                 
+                }
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -198,17 +224,28 @@ public class PlayerController : MonoBehaviour
 
     void fire()
     {
-        if (currentForm != forms.Earth)
+        if (facingRight)
         {
-            if (facingRight)
-            {
-                Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
+            Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
         }
+        else
+        {
+            Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+    }
+
+    void startCharge()
+    {
+        isCharging = true;
+        GetComponent<Renderer>().material.color = Color.red;
+        keysEnabled = false;
+    }
+
+    public void stopCharge()
+    {
+        isCharging = false;
+        GetComponent<Renderer>().material.color = Color.white;
+        keysEnabled = true;
     }
 
     int getLife()
@@ -247,16 +284,25 @@ public class PlayerController : MonoBehaviour
         return currentForm.ToString();
     }
 
-    IEnumerator KnockBack()
+    public IEnumerator KnockBack()
     {
         float timer = 0;
-
-        while(timer < 0.05f)
+        keysEnabled = false;
+        while (timer < 0.2)
         {
             timer += Time.deltaTime;
-
-            rigidBody.AddForce(new Vector3(rigidBody.velocity.x * -100, rigidBody.velocity.y * -5, transform.position.z));
+            if (facingRight)
+            {
+                rigidBody.velocity = new Vector2(0, 0);
+                rigidBody.AddForce(new Vector2(-300, 10));
+            }
+            else
+            {
+                rigidBody.velocity = new Vector2(0, 0);
+                rigidBody.AddForce(new Vector2(300, 10));
+            }
         }
+        keysEnabled = true;
         yield return 0;            
     }
 
@@ -268,6 +314,11 @@ public class PlayerController : MonoBehaviour
     public bool isPlayerInWater()
     {
         return isInWater;
+    }
+
+    public bool isPlayerCharging()
+    {
+        return isCharging;
     }
 
     private void environmentalPower()
