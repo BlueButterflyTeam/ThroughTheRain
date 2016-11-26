@@ -100,6 +100,10 @@ public class PlayerController : MonoBehaviour
         {
             fire();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            environmentalPower();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -220,5 +224,32 @@ public class PlayerController : MonoBehaviour
         return isInWater;
     }
 
+    private void environmentalPower()
+    {
+        switch (currentForm)
+        {
+            case forms.Air:
+                break;
+            case forms.Earth:
+                break;
+            case forms.Fire:
+                break;
+            case forms.Water:
+                GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
+
+                int size = objects.Length;
+                
+                for (int i = 0; i < size; i++)
+                {
+                    GameObject obj = objects[i];
+                    if(obj.GetComponent<Renderer>().isVisible)
+                    {
+                        obj.GetComponent<MoveUp>().moveUp();
+                    }
+                }
+
+                break;
+        }
+    }
 }
 
