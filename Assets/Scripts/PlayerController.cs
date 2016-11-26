@@ -8,7 +8,11 @@ public class PlayerController : MonoBehaviour
     public Sprite fireSprite;
     public Sprite earthSprite;
 
+    public Sprite blackHeartSprite;
+
     int numberOfForms;
+
+    public UnityEngine.UI.Image heart1, heart2, heart3;
 
     GameObject rightBullet;
     GameObject leftBullet;
@@ -46,8 +50,6 @@ public class PlayerController : MonoBehaviour
         changeForm(forms.Water);
         jumpsRemaining = maxNbJumps;
         numberOfForms = gameWorld.GetComponent<GameWorldState>().numberOfFormsInLevel;
-
-        print(numberOfForms);
     }
 
     void FixedUpdate()
@@ -194,7 +196,22 @@ public class PlayerController : MonoBehaviour
     public void getHit()
     {
         StartCoroutine(KnockBack());
-        life--;
+        if (life > 0)
+        {
+            if(life == 1)
+            {
+                heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            }
+            else if(life == 2)
+            {
+                heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            }
+            else if(life >= 3)
+            {
+                heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            }
+            life--;
+        }
     }
 
     public string getForm()
