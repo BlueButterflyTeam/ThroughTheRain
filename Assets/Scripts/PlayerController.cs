@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public Sprite waterSprite;
+    public Sprite airSprite;
+    public Sprite fireSprite;
+    public Sprite earthSprite;
 
     GameObject rightBullet;
     GameObject leftBullet;
@@ -15,6 +19,8 @@ public class PlayerController : MonoBehaviour
     Vector3 scale;
 
     bool facingRight = true;
+
+    bool isInWater  ;
 
     int maxNbJumps;
     int jumpsRemaining;
@@ -36,7 +42,6 @@ public class PlayerController : MonoBehaviour
         scale = transform.localScale;
         rigidBody = GetComponent<Rigidbody2D>();
         changeForm(forms.Water);
-        GetComponent<Renderer>().material.color = Color.blue;
         jumpsRemaining = maxNbJumps;
     }
 
@@ -45,6 +50,17 @@ public class PlayerController : MonoBehaviour
         Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
         rigidBody.velocity = moveDirection;
 
+        if (isInWater)
+        {
+            if (currentForm == forms.Fire)
+            {
+                life = 0;
+            }
+            else if(currentForm == forms.Air)
+            {
+                rigidBody.AddForce(new Vector3(0, 75, 0));
+            }
+        }
         if (Input.GetAxisRaw("Horizontal") == 1)
         {
             facingRight = true;
@@ -54,7 +70,7 @@ public class PlayerController : MonoBehaviour
         {
             facingRight = false;
             transform.localScale = new Vector3(-1 * Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
-        }
+        }   
     }
 
     void Update()
@@ -84,6 +100,10 @@ public class PlayerController : MonoBehaviour
         {
             fire();
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            environmentalPower();
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -100,29 +120,53 @@ public class PlayerController : MonoBehaviour
 
         if (currentForm == forms.Water)
         {
-            GetComponent<Renderer>().material.color = Color.blue;
+            try
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
+            }
+            catch { }
+            GetComponent<SpriteRenderer>().sprite = waterSprite;
             rightBullet = Resources.Load("RightWater") as GameObject;
             leftBullet = Resources.Load("LeftWater") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
         {
-            GetComponent<Renderer>().material.color = Color.white;
+            try
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
+            }
+            catch { }
+            GetComponent<SpriteRenderer>().sprite = airSprite;
             rightBullet = Resources.Load("RightAir") as GameObject;
             leftBullet = Resources.Load("LeftAir") as GameObject;
             maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
         {
-            GetComponent<Renderer>().material.color = Color.red;
+            try
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>());
+            }
+            catch { }
+            GetComponent<SpriteRenderer>().sprite = fireSprite;
             rightBullet = Resources.Load("RightFire") as GameObject;
             leftBullet = Resources.Load("LeftFire") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)
         {
-            GetComponent<Renderer>().material.color = Color.gray;
+            try
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
+            }
+            catch { }
+            GetComponent<SpriteRenderer>().sprite = earthSprite;
             maxNbJumps = 1;
+        }
+        if (isGrounded)
+        {
+            jumpsRemaining = maxNbJumps;
         }
     }
 
@@ -148,14 +192,7 @@ public class PlayerController : MonoBehaviour
 
     public void getHit()
     {
-        if (facingRight)
-        {
-            rigidBody.velocity = new Vector2(-50000, 0);
-        }
-        else
-        {
-            rigidBody.velocity = new Vector2(50000, 0);
-        }       
+        StartCoroutine(KnockBack());
         life--;
     }
 
@@ -163,4 +200,56 @@ public class PlayerController : MonoBehaviour
     {
         return currentForm.ToString();
     }
+
+    IEnumerator KnockBack()
+    {
+        float timer = 0;
+
+        while(timer < 0.05f)
+        {
+            timer += Time.deltaTime;
+
+            rigidBody.AddForce(new Vector3(rigidBody.velocity.x * -100, rigidBody.velocity.y * -5, transform.position.z));
+        }
+        yield return 0;            
+    }
+
+    public void setInWater(bool Boolean)
+    {
+        isInWater = Boolean;
+    }
+
+    public bool isPlayerInWater()
+    {
+        return isInWater;
+    }
+
+    private void environmentalPower()
+    {
+        switch (currentForm)
+        {
+            case forms.Air:
+                break;
+            case forms.Earth:
+                break;
+            case forms.Fire:
+                break;
+            case forms.Water:
+                GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
+
+                int size = objects.Length;
+                
+                for (int i = 0; i < size; i++)
+                {
+                    GameObject obj = objects[i];
+                    if(obj.GetComponent<Renderer>().isVisible)
+                    {
+                        obj.GetComponent<MoveUp>().moveUp();
+                    }
+                }
+
+                break;
+        }
+    }
 }
+
