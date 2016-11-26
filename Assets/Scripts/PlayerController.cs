@@ -9,16 +9,21 @@ public class PlayerController : MonoBehaviour
     public Sprite earthSprite;
 
     public Sprite blackHeartSprite;
+    public Sprite HeartSprite;
+
+    public UnityEngine.UI.Text gameOverText;
+    public GameObject rainPrefab;
+    public UnityEngine.UI.Image heart1, heart2, heart3;
+    public float moveSpeed;
+    public float jumpHeight;
+
+    public GameWorldState gameWorld;
 
     int numberOfForms;
-
-    public UnityEngine.UI.Image heart1, heart2, heart3;
 
     GameObject rightBullet;
     GameObject leftBullet;
 
-    public float moveSpeed;
-    public float jumpHeight;
 
     bool isGrounded;
 
@@ -26,21 +31,19 @@ public class PlayerController : MonoBehaviour
 
     bool facingRight = true;
 
-    bool isInWater  ;
+    bool isInWater;
 
     int maxNbJumps;
     int jumpsRemaining;
 
     Rigidbody2D rigidBody;
 
-    public GameWorldState gameWorld;
-
     enum forms { Water, Air, Fire, Earth };
     forms currentForm;
 
     int life;
 
-    public GameObject rainPrefab;
+    private bool keysEnabled = true;
 
     void Start()
     {
@@ -56,62 +59,68 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
-        rigidBody.velocity = moveDirection;
+        if(keysEnabled)
+        {
+            Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
+            rigidBody.velocity = moveDirection;
 
-        if (isInWater)
-        {
-            if (currentForm == forms.Fire)
+            if (isInWater)
             {
-                life = 0;
+                if (currentForm == forms.Fire)
+                {
+                    life = 0;
+                }
+                else if(currentForm == forms.Air)
+                {
+                    rigidBody.AddForce(new Vector3(0, 13, 0));
+                }
             }
-            else if(currentForm == forms.Air)
+            if (Input.GetAxisRaw("Horizontal") == 1)
             {
-                rigidBody.AddForce(new Vector3(0, 13, 0));
+                facingRight = true;
+                transform.localScale = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
             }
+            else if (Input.GetAxisRaw("Horizontal") == -1)
+            {
+                facingRight = false;
+                transform.localScale = new Vector3(-1 * Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
+            }   
         }
-        if (Input.GetAxisRaw("Horizontal") == 1)
-        {
-            facingRight = true;
-            transform.localScale = new Vector3(Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
-        }
-        else if (Input.GetAxisRaw("Horizontal") == -1)
-        {
-            facingRight = false;
-            transform.localScale = new Vector3(-1 * Mathf.Abs(scale.x), Mathf.Abs(scale.y), Mathf.Abs(scale.z));
-        }   
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
+        if(keysEnabled)
         {
-            rigidBody.AddForce(new Vector2(0, jumpHeight));
-            jumpsRemaining--;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            changeForm(forms.Water);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2) && numberOfForms >= 2)
-        {
-            changeForm(forms.Air);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3) && numberOfForms >= 3)
-        {
-            changeForm(forms.Earth);
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4) && numberOfForms >= 4)
-        {
-            changeForm(forms.Fire);
-        }
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            fire();
-        }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            environmentalPower();
+            if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
+            {
+                rigidBody.AddForce(new Vector2(0, jumpHeight));
+                jumpsRemaining--;
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                changeForm(forms.Water);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha2) && numberOfForms >= 2)
+            {
+                changeForm(forms.Air);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha3) && numberOfForms >= 3)
+            {
+                changeForm(forms.Earth);
+            }
+            if (Input.GetKeyDown(KeyCode.Alpha4) && numberOfForms >= 4)
+            {
+                changeForm(forms.Fire);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                fire();
+            }
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                environmentalPower();
+            }
         }
     }
 
@@ -226,6 +235,11 @@ public class PlayerController : MonoBehaviour
             }
             life--;
         }
+
+        if(life == 0)
+        {
+            die();
+        }
     }
 
     public string getForm()
@@ -285,6 +299,31 @@ public class PlayerController : MonoBehaviour
 
                 break;
         }
+    }
+
+    private void die()
+    {
+        gameOverText.gameObject.SetActive(true);
+        keysEnabled = false;
+
+        StartCoroutine(Wait(3));
+    }
+
+    private IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        keysEnabled = true;
+        gameOverText.gameObject.SetActive(false);
+
+        Vector3 respawn = GameObject.Find("RespawnPoint").transform.position;
+        gameObject.transform.position = new Vector3(respawn.x, respawn.y, transform.position.z);
+
+        life = 3;
+
+        heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+        heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+        heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
     }
 }
 
