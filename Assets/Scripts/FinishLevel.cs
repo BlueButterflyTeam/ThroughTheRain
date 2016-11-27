@@ -13,6 +13,9 @@ public class FinishLevel : MonoBehaviour {
         if (other.gameObject.CompareTag("Player"))
         {
             gameWonText.gameObject.SetActive(true);
+            other.GetComponent<BasePlayerController>().immobilize();
+            other.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            other.GetComponent<Rigidbody2D>().isKinematic = true;
 
             StartCoroutine(Load());
         }

@@ -11,6 +11,7 @@ public class WaterPlayerController : BasePlayerController {
     public override void Start () {
         base.Start();
 
+        startForm = forms.Water;
         changeForm(forms.Water);
     }
 
@@ -39,6 +40,7 @@ public class WaterPlayerController : BasePlayerController {
     {
         base.FixedUpdate();
 
+        // TODO play sound
         if (horizontalBoost)
         {
             rigidBody.AddForce(new Vector2(400, 0));

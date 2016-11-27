@@ -2,37 +2,43 @@
 using System.Collections;
 using System;
 
-public class VolcanoPlayerController : BasePlayerController {
+public class ForestPlayerController : BasePlayerController {
 
+    public GameObject rainPrefab;
     public GameObject windPrefab;
 
     private bool airPowerToRight = true;
 
     // Use this for initialization
-    public override void Start () {
+    public override void Start()
+    {
         base.Start();
 
-        changeForm(forms.Fire);
+        startForm = forms.Water;
+        changeForm(forms.Water);
     }
-	
-	// Update is called once per frame
-	public override void Update () {
+
+    // Update is called once per frame
+    public override void Update()
+    {
         base.Update();
+    }
 
-        if (keysEnabled)
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+
+        if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
         {
-            if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
-            {
-                rigidBody.AddForce(new Vector2(0, jumpHeight));
-                jumpsRemaining--;
+            rigidBody.AddForce(new Vector2(0, jumpHeight));
+            jumpsRemaining--;
 
-                try
-                {
-                    GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(jumpSound);
-                }
-                catch
-                { }
+            try
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(jumpSound);
             }
+            catch
+            { }
         }
     }
 
@@ -102,9 +108,23 @@ public class VolcanoPlayerController : BasePlayerController {
                 }
 
                 break;
-            default:
+            case forms.Fire:
+
+                break;
+            case forms.Water:
+                // Visual effect
+                GameObject rainFX = (GameObject)UnityEngine.Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
+                Destroy(rainFX, 3);
+
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("Rain");
+
+                foreach (GameObject obj in objects)
+                {
+                    obj.GetComponent<MoveUp>().moveUp();
+                }
+
                 break;
         }
     }
-
 }
