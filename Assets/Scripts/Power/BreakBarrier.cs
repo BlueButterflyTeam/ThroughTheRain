@@ -7,5 +7,7 @@ public class BreakBarrier : MonoBehaviour {
     {
         gameObject.transform.GetChild(0).GetComponent<BreakObjects>().breakObject();
         gameObject.transform.GetChild(1).GetComponent<BreakObjects>().breakObject();
+
+        Destroy(gameObject, 5f);
     }
 }

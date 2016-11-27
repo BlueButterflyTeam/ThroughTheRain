@@ -12,9 +12,13 @@ public class FireScript : MonoBehaviour
         }
         if(collider.name.Contains("Player"))
         {
-            if (collider.GetComponent<ForestPlayerController>().getForm() != "Fire")
+            if (collider.GetComponent<BasePlayerController>().getForm() != "Fire")
             {
-                collider.GetComponent<ForestPlayerController>().getHit();
+                // Knock back the player
+                Rigidbody2D rigidbody = collider.GetComponent<Rigidbody2D>();
+                rigidbody.AddForce(new Vector2(-Mathf.Sign(rigidbody.velocity.x) * 500, 0));
+
+                collider.GetComponent<BasePlayerController>().getHit();
             }         
         }
     }

@@ -36,19 +36,23 @@ public class EnnemyScript : MonoBehaviour
        
     }
 
-    void OnCollisionEnter2D(Collision2D collider)
+    void OnCollisionEnter2D(Collision2D other)
     {
-        if ((collider.collider.name.Contains("Player")))
+        if ((other.collider.name.Contains("Player")))
         {
-            if (collider.collider.GetComponent<PlayerController>().isPlayerCharging())
+            if (other.collider.GetComponent<BasePlayerController>().isPlayerCharging())
             {
-                collider.collider.GetComponent<PlayerController>().stopCharge();
-                StartCoroutine(collider.collider.GetComponent<PlayerController>().KnockBack());
+                other.collider.GetComponent<BasePlayerController>().stopCharge();
+                StartCoroutine(other.collider.GetComponent<BasePlayerController>().KnockBack());
                 Destroy(gameObject);
             }
             else
             {
-                collider.collider.GetComponent<PlayerController>().getHit();
+                // Knock back the player
+                Rigidbody2D rigidbody = other.collider.GetComponent<Rigidbody2D>();
+                rigidbody.AddForce(new Vector2(-Mathf.Sign(rigidbody.velocity.x) * 200, 0));
+
+                other.collider.GetComponent<BasePlayerController>().getHit();
             }            
         }
     }
