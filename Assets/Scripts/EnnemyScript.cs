@@ -3,13 +3,6 @@ using System.Collections;
 
 public class EnnemyScript : MonoBehaviour
 {
-
-    public float speed;
-    public float duration;
-
-    bool goingLeft = false;
-    bool isWaiting = false;
-
     Rigidbody2D rigidBody;
     
     void Start()
@@ -19,18 +12,7 @@ public class EnnemyScript : MonoBehaviour
 	
 	void Update ()
     {
-        if(!isWaiting)
-        {
-            StartCoroutine(Wait(duration));
-        }
-        if (goingLeft)
-        {
-            rigidBody.velocity = new Vector2(-speed, rigidBody.velocity.y);
-        }
-        else
-        {
-            rigidBody.velocity = new Vector2(speed, rigidBody.velocity.y);
-        }
+        
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -69,14 +51,5 @@ public class EnnemyScript : MonoBehaviour
                 collider.collider.GetComponent<PlayerController>().getHit();
             }            
         }
-    }
-
-    private IEnumerator Wait(float time)
-    {
-        isWaiting = true;
-        yield return new WaitForSeconds(time);
-
-        goingLeft = !goingLeft;
-        isWaiting = false;
     }
 }
