@@ -374,6 +374,7 @@ public class PlayerController : MonoBehaviour
 
                 break;
             case forms.Fire:
+
                 break;
             case forms.Water:
                 // Visual effect
@@ -419,7 +420,7 @@ public class PlayerController : MonoBehaviour
     {
         gameOverText.gameObject.SetActive(true);
         keysEnabled = false;
-
+        
         StartCoroutine(Respawn(3));
     }
 
@@ -438,6 +439,8 @@ public class PlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+
+        changeForm(forms.Water);
     }
 
     private IEnumerator Wait(float time)
@@ -445,7 +448,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
-        void updateHearts()
+    void updateHearts()
     {
         if (life == 0)
         {
