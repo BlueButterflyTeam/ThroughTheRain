@@ -13,11 +13,17 @@ public class PlayerController : MonoBehaviour
 
     public UnityEngine.UI.Text gameOverText;
     public GameObject rainPrefab;
+    public GameObject windPrefab;
+
     public UnityEngine.UI.Image heart1, heart2, heart3;
     public float moveSpeed;
     public float jumpHeight;
 
     public GameWorldState gameWorld;
+
+    bool isCharging = false;
+    bool smashing = false;
+    float timer;
 
     int numberOfForms;
 
@@ -44,6 +50,7 @@ public class PlayerController : MonoBehaviour
     int life;
 
     private bool keysEnabled = true;
+    private bool airPowerToRight = true;
 
     void Start()
     {
@@ -59,8 +66,37 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if(keysEnabled)
+        if(isCharging)
         {
+            if (facingRight)
+            {
+                rigidBody.AddForce(new Vector3(25, 0, 0));
+            }
+            else
+            {
+                rigidBody.AddForce(new Vector3(-25, 0, 0));
+            }
+            StartCoroutine(stopCharge());
+        }
+        else if(smashing)
+        {           
+            rigidBody.AddForce(new Vector2(0, -50));
+            if (jumpsRemaining == maxNbJumps)
+            {
+                GetComponent<Renderer>().material.color = Color.white;
+                smashing = false;
+                keysEnabled = true;
+            }
+        }
+        else if(keysEnabled)
+        {
+            if (Input.GetKeyDown(KeyCode.S) && (currentForm == forms.Earth) && (jumpsRemaining < maxNbJumps))
+            {
+                GetComponent<Renderer>().material.color = Color.red;
+                rigidBody.velocity = new Vector2(0, rigidBody.velocity.y);
+                smashing = true;
+                keysEnabled = false;
+            }
             Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
             rigidBody.velocity = moveDirection;
 
@@ -69,6 +105,8 @@ public class PlayerController : MonoBehaviour
                 if (currentForm == forms.Fire)
                 {
                     life = 0;
+                    updateHearts();
+                    die();
                 }
                 else if(currentForm == forms.Air)
                 {
@@ -115,7 +153,14 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                fire();
+                if(currentForm != forms.Earth)
+                {
+                    fire();
+                }
+                else
+                {
+                    startCharge();                 
+                }
             }
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -126,7 +171,7 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "MovableCloud")
         {
             jumpsRemaining = maxNbJumps;
         }
@@ -150,8 +195,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = waterSprite;
-            rightBullet = Resources.Load("RightWater") as GameObject;
-            leftBullet = Resources.Load("LeftWater") as GameObject;
+            rightBullet = Resources.Load("RightWaterBullet") as GameObject;
+            leftBullet = Resources.Load("LeftWaterBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
@@ -160,8 +205,8 @@ public class PlayerController : MonoBehaviour
             jumpHeight = 350;
 
             GetComponent<SpriteRenderer>().sprite = airSprite;
-            rightBullet = Resources.Load("RightAir") as GameObject;
-            leftBullet = Resources.Load("LeftAir") as GameObject;
+            rightBullet = Resources.Load("RightAirBullet") as GameObject;
+            leftBullet = Resources.Load("LeftAirBullet") as GameObject;
             maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
@@ -178,8 +223,8 @@ public class PlayerController : MonoBehaviour
             }
 
             GetComponent<SpriteRenderer>().sprite = fireSprite;
-            rightBullet = Resources.Load("RightFire") as GameObject;
-            leftBullet = Resources.Load("LeftFire") as GameObject;
+            rightBullet = Resources.Load("RightFireBullet") as GameObject;
+            leftBullet = Resources.Load("LeftFireBullet") as GameObject;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)
@@ -198,17 +243,30 @@ public class PlayerController : MonoBehaviour
 
     void fire()
     {
-        if (currentForm != forms.Earth)
+        if (facingRight)
         {
-            if (facingRight)
-            {
-                Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
-            }
+            Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
         }
+        else
+        {
+            Instantiate(leftBullet, new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+    }
+
+    void startCharge()
+    {
+        isCharging = true;
+        GetComponent<Renderer>().material.color = Color.red;
+        keysEnabled = false;
+    }
+
+    public IEnumerator stopCharge()
+    {
+        yield return new WaitForSeconds(1);
+
+        isCharging = false;
+        GetComponent<Renderer>().material.color = Color.white;
+        keysEnabled = true;
     }
 
     int getLife()
@@ -218,28 +276,22 @@ public class PlayerController : MonoBehaviour
 
     public void getHit()
     {
-        StartCoroutine(KnockBack());
+        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
+        
+
         if (life > 0)
-        {
-            if(life == 1)
-            {
-                heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life == 2)
-            {
-                heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
-            else if(life >= 3)
-            {
-                heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
-            }
+        {            
             life--;
+            updateHearts();
+            
         }
 
         if(life == 0)
         {
             die();
         }
+        else
+            StartCoroutine(KnockBack());
     }
 
     public string getForm()
@@ -247,17 +299,13 @@ public class PlayerController : MonoBehaviour
         return currentForm.ToString();
     }
 
-    IEnumerator KnockBack()
+    public IEnumerator KnockBack()
     {
-        float timer = 0;
+        keysEnabled = false;
 
-        while(timer < 0.05f)
-        {
-            timer += Time.deltaTime;
+        yield return new WaitForSeconds(1);
 
-            rigidBody.AddForce(new Vector3(rigidBody.velocity.x * -100, rigidBody.velocity.y * -5, transform.position.z));
-        }
-        yield return 0;            
+        keysEnabled = true;        
     }
 
     public void setInWater(bool Boolean)
@@ -270,46 +318,113 @@ public class PlayerController : MonoBehaviour
         return isInWater;
     }
 
+    public bool isPlayerCharging()
+    {
+        return isCharging;
+    }
+
     private void environmentalPower()
     {
+        ArrayList objects;
+
         switch (currentForm)
         {
             case forms.Air:
+                // Visual effect
+                GameObject windFX = (GameObject)Object.Instantiate(windPrefab, transform.position, Quaternion.identity);
+
+                Vector3 position = transform.position;
+
+                if (airPowerToRight)
+                {
+                    position.x += windPrefab.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+                }
+                else
+                {
+                    windFX.GetComponent<SpriteRenderer>().flipX = true;
+                    position.x -= windPrefab.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+                }
+
+                windFX.transform.position = position;
+
+                Destroy(windFX, 1.7f);
+
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("MovableCloud");
+
+                foreach (GameObject obj in objects)
+                {
+                    obj.GetComponent<MoveCloud>().moveCloud(airPowerToRight);
+                }
+
+                airPowerToRight = !airPowerToRight;
+
                 break;
             case forms.Earth:
+                // Visual effect
+                GameObject.Find("Main Camera").GetComponent<CameraScript>().shake(1);
+
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("Destructible");
+
+                foreach (GameObject obj in objects)
+                {
+                    obj.GetComponent<BreakBarrier>().breakBarrier();
+                }
+
                 break;
             case forms.Fire:
+
                 break;
             case forms.Water:
-                Object rainFX = Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
+                // Visual effect
+                GameObject rainFX = (GameObject)Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
                 Destroy(rainFX, 3);
 
-                GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
-
-                int size = objects.Length;
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("Rain");
                 
-                for (int i = 0; i < size; i++)
+                foreach(GameObject obj in objects)
                 {
-                    GameObject obj = objects[i];
-                    if(obj.GetComponent<Renderer>().isVisible)
-                    {
-                        obj.GetComponent<MoveUp>().moveUp();
-                    }
+                    obj.GetComponent<MoveUp>().moveUp();
                 }
 
                 break;
         }
     }
 
+    private ArrayList getVisbleObjectWithTag(string tag)
+    {
+        int size;
+        GameObject[] objects;
+        ArrayList results = new ArrayList();
+
+        objects = GameObject.FindGameObjectsWithTag(tag);
+
+        size = objects.Length;
+
+        for (int i = 0; i < size; i++)
+        {
+            GameObject obj = objects[i];
+            
+            if (obj.transform.GetChild(0).GetComponent<Renderer>().isVisible)
+            {
+                results.Add(obj);
+            }
+        }
+
+        return results;
+    }
+
     private void die()
     {
         gameOverText.gameObject.SetActive(true);
         keysEnabled = false;
-
-        StartCoroutine(Wait(3));
+        
+        StartCoroutine(Respawn(3));
     }
 
-    private IEnumerator Wait(float time)
+    private IEnumerator Respawn(float time)
     {
         yield return new WaitForSeconds(time);
 
@@ -324,6 +439,32 @@ public class PlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+
+        changeForm(forms.Water);
+    }
+
+    private IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
+
+    void updateHearts()
+    {
+        if (life == 0)
+        {
+            heart1.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life == 1)
+        {
+            heart2.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
+        else if (life >= 2)
+        {
+            heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
+        }
     }
 }
 

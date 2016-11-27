@@ -7,7 +7,12 @@ public class GameWorldState : MonoBehaviour {
     public AudioClip music;
 
     void Start () {
-        GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayMusic(music);
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().PlayMusic(music);
+        }
+        catch
+        { }
 	}
 	
 	void Update () {
