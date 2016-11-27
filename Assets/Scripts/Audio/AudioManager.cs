@@ -74,4 +74,14 @@ public class AudioManager : MonoBehaviour {
         soundSources.Remove(audioSource);
         Destroy(audioSource);
     }
+
+    public float getMusicVolume()
+    {
+        return musicVolume;
+    }
+
+    public float getSoundVolume()
+    {
+        return soundVolume;
+    }
 }

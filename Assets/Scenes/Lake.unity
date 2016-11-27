@@ -730,7 +730,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 924983920}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -889,6 +889,18 @@ MonoBehaviour:
   moveSpeed: 0
   jumpHeight: 0
   gameWorld: {fileID: 408036274}
+  chargeSound: {fileID: 0}
+  earthquakeSound: {fileID: 0}
+  fireballSound: {fileID: 0}
+  waterPulseSound: {fileID: 0}
+  jumpSound: {fileID: 0}
+  playerHitSound: {fileID: 0}
+  windSound: {fileID: 0}
+  deathSound: {fileID: 0}
+  popSound1: {fileID: 0}
+  popSound2: {fileID: 0}
+  popSound3: {fileID: 0}
+  popSound4: {fileID: 0}
 --- !u!61 &1168365131
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -960,7 +972,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1168365129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.5, y: 4.9, z: 0}
+  m_LocalPosition: {x: 1.5, y: 4.9, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:

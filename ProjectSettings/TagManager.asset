@@ -9,6 +9,7 @@ TagManager:
   - Checkpoint
   - Destructible
   - MovableCloud
+  - MusicSlider
   layers:
   - Default
   - TransparentFX
