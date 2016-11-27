@@ -26,6 +26,11 @@ public class AudioManager : MonoBehaviour {
         musicSource.Play();
     }
 
+    public void StopMusic()
+    {
+        musicSource.Stop();
+    }
+
     public void PlaySingle(AudioClip clip)
     {
         soundSource.clip = clip;
@@ -50,5 +55,10 @@ public class AudioManager : MonoBehaviour {
     public void SoundVolume(float vol)
     {
         soundSource.volume = vol;
+    }
+
+    public bool isSoundPlaying()
+    {
+        return soundSource.isPlaying;
     }
 }

@@ -6,6 +6,8 @@ public class MoveUp : MonoBehaviour
     private bool movingUp = false;
     private bool moved = false;
 
+    public AudioClip sound;
+
     private float startingPosition;
 
     // Use this for initialization
@@ -40,6 +42,13 @@ public class MoveUp : MonoBehaviour
         // Code to execute after the delay
         if (!moved)
         {
+            try
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(sound);
+            }
+            catch
+            { }
+
             this.movingUp = true;
             moved = true;
         }
