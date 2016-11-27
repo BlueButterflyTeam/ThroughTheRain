@@ -1,25 +1,40 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class TriggerArcherScript : MonoBehaviour {
-
+public class TriggerArcherScript : MonoBehaviour
+{
     public bool fromRight;
 
+    bool wait = false;
+
 	// Use this for initialization
-	void Start () {
+	void Start ()
+    {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update()
+    {
+
 	}
 
-    void OnTriggerEnter2D(Collider2D collider)
+    void OnTriggerStay2D(Collider2D collider)
     {
-        if (collider.name.Contains("Player"))
+        if (collider.name.Contains("Player") && !wait)
         {
-            GetComponentInParent<ArcherScript>().shoot(fromRight);
+            StartCoroutine(Fire(1f));
         }
+    }
+
+    private IEnumerator Fire(float time)
+    {
+        wait = true;
+
+        GetComponentInParent<ArcherScript>().shoot(fromRight);
+
+        yield return new WaitForSeconds(time);
+
+        wait = false;
     }
 }

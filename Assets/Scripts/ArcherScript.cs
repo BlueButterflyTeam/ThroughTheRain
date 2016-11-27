@@ -58,7 +58,6 @@ public class ArcherScript : MonoBehaviour
 
     public void shoot(bool fromRight)
     {
-        print(fromRight);
         if (fromRight)
         {
             Instantiate(rightBullet, new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z), Quaternion.identity);
