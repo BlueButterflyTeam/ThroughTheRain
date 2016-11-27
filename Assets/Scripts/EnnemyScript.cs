@@ -1,33 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnnemyScript : MonoBehaviour {
+public class EnnemyScript : MonoBehaviour
+{
 
-	// Use this for initialization
-	void Start () {
+    public float speed;
+    public float duration;
+
+    bool goingLeft = false;
+    bool isWaiting = false;
+
+    Rigidbody2D rigidBody;
+    
+    void Start()
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+    }
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        if(!isWaiting)
+        {
+            StartCoroutine(Wait(duration));
+        }
+        if (goingLeft)
+        {
+            rigidBody.velocity = new Vector2(-speed, rigidBody.velocity.y);
+        }
+        else
+        {
+            rigidBody.velocity = new Vector2(speed, rigidBody.velocity.y);
+        }
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.name.Contains("AirBullet"))
+        if (collider.name.Contains("AirBullet"))
         {
-            if(collider.transform.position.x > transform.position.x)
-                {
-                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(-5, 0);
+            if (collider.transform.position.x > transform.position.x)
+            {
+                rigidBody.AddForce(new Vector2(-200, 0));
             }
             else
             {
-                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(5, 0);
+                rigidBody.AddForce(new Vector2(200, 0));
             }
-            
+
         }
-        else if(collider.name.Contains("Bullet"))
+        else if (collider.name.Contains("Bullet"))
         {
             Destroy(gameObject);
         }
@@ -36,7 +56,7 @@ public class EnnemyScript : MonoBehaviour {
 
     void OnCollisionEnter2D(Collision2D collider)
     {
-         if ((collider.collider.name.Contains("player")))
+        if ((collider.collider.name.Contains("Player")))
         {
             if (collider.collider.GetComponent<PlayerController>().isPlayerCharging())
             {
@@ -47,7 +67,16 @@ public class EnnemyScript : MonoBehaviour {
             else
             {
                 collider.collider.GetComponent<PlayerController>().getHit();
-            }
+            }            
         }
+    }
+
+    private IEnumerator Wait(float time)
+    {
+        isWaiting = true;
+        yield return new WaitForSeconds(time);
+
+        goingLeft = !goingLeft;
+        isWaiting = false;
     }
 }
