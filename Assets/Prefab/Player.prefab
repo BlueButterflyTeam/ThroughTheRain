@@ -52,7 +52,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013311599634}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -24.56, y: 3.94, z: -8}
+  m_LocalPosition: {x: -9.8, y: 20.4, z: -8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -120,11 +120,12 @@ MonoBehaviour:
   earthSprite: {fileID: 21300000, guid: d54d6663f6bf65743b869e2df30947c0, type: 3}
   blackHeartSprite: {fileID: 21300000, guid: b74508fd6f6117c49a763ac26180c154, type: 3}
   HeartSprite: {fileID: 21300000, guid: d6faa94a113d87543b52190a1e365650, type: 3}
-  gameOverText: {fileID: 0}
+  gameOverText: {fileID: 114000013759094564, guid: 279f11353dc47924ab9951e96c8df2d2,
+    type: 2}
   rainPrefab: {fileID: 191326, guid: b046278bb9b6e104790392b566667ba5, type: 2}
-  heart1: {fileID: 0}
-  heart2: {fileID: 0}
-  heart3: {fileID: 0}
+  heart1: {fileID: 114000012252071916, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
+  heart2: {fileID: 114000013405801870, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
+  heart3: {fileID: 114000011106219556, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
   moveSpeed: 20
   jumpHeight: 400
   gameWorld: {fileID: 0}

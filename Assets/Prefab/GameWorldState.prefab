@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92175eefbf29aeb43a3dd7bb367ccb43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfFormsInLevel: 4
+  numberOfFormsInLevel: 2
   music: {fileID: 8300000, guid: c1a33f945f68e425f8aa0cc9b23fa582, type: 3}
