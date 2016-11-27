@@ -12,9 +12,9 @@ public class FireScript : MonoBehaviour
         }
         if(collider.name.Contains("Player"))
         {
-            if (collider.GetComponent<PlayerController>().getForm() != "Fire")
+            if (collider.GetComponent<ForestPlayerController>().getForm() != "Fire")
             {
-                collider.GetComponent<PlayerController>().getHit();
+                collider.GetComponent<ForestPlayerController>().getHit();
             }         
         }
     }

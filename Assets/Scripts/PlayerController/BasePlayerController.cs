@@ -19,6 +19,22 @@ public abstract class BasePlayerController : MonoBehaviour
 
     public GameWorldState gameWorld;
 
+    public AudioClip chargeSound;
+    public AudioClip earthquakeSound;
+    public AudioClip fireballSound;
+    public AudioClip waterPulseSound;
+    public AudioClip jumpSound;
+    public AudioClip playerHitSound;
+    public AudioClip windSound;
+    public AudioClip deathSound;
+
+    public AudioClip popSound1;
+    public AudioClip popSound2;
+    public AudioClip popSound3;
+    public AudioClip popSound4;
+
+    private AudioClip shootSound;
+
     private bool isCharging = false;
     private bool smashing = false;
     private float timer;
@@ -43,6 +59,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
     protected enum forms { Water, Air, Fire, Earth };
     protected forms currentForm;
+    protected forms startForm = forms.Earth;
 
     private int life;
 
@@ -98,7 +115,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
             Vector3 moveDirection = new Vector2(moveSpeed * Input.GetAxisRaw("Horizontal"), rigidBody.velocity.y);
             rigidBody.velocity = moveDirection;
-
+            
             if (isInWater)
             {
                 if (currentForm == forms.Fire)
@@ -177,11 +194,17 @@ public abstract class BasePlayerController : MonoBehaviour
 
         try
         {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(popSound1, popSound2, popSound3, popSound4);
+        }
+        catch
+        { }
+
+        try
+        {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
         }
         catch
-        {
-        }
+        { }
 
         if (currentForm == forms.Water)
         {
@@ -191,6 +214,7 @@ public abstract class BasePlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = waterSprite;
             rightBullet = Resources.Load("RightWaterBullet") as GameObject;
             leftBullet = Resources.Load("LeftWaterBullet") as GameObject;
+            shootSound = waterPulseSound;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Air)
@@ -201,6 +225,7 @@ public abstract class BasePlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = airSprite;
             rightBullet = Resources.Load("RightAirBullet") as GameObject;
             leftBullet = Resources.Load("LeftAirBullet") as GameObject;
+            shootSound = waterPulseSound;
             maxNbJumps = 2;
         }
         if (currentForm == forms.Fire)
@@ -219,6 +244,7 @@ public abstract class BasePlayerController : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = fireSprite;
             rightBullet = Resources.Load("RightFireBullet") as GameObject;
             leftBullet = Resources.Load("LeftFireBullet") as GameObject;
+            shootSound = fireballSound;
             maxNbJumps = 1;
         }
         if (currentForm == forms.Earth)
@@ -237,6 +263,13 @@ public abstract class BasePlayerController : MonoBehaviour
 
     public void fire()
     {
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(shootSound);
+        }
+        catch
+        { }
+
         if (facingRight)
         {
             Instantiate(rightBullet, new Vector3(transform.position.x + 1f, transform.position.y, transform.position.z), Quaternion.identity);
@@ -249,6 +282,13 @@ public abstract class BasePlayerController : MonoBehaviour
 
     public void startCharge()
     {
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(chargeSound);
+        }
+        catch
+        { }
+
         isCharging = true;
         GetComponent<Renderer>().material.color = Color.red;
         keysEnabled = false;
@@ -271,7 +311,14 @@ public abstract class BasePlayerController : MonoBehaviour
     public void getHit()
     {
         rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
-        
+
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(playerHitSound);
+        }
+        catch
+        { }
+
         if (life > 0)
         {            
             life--;
@@ -340,8 +387,16 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private void die()
     {
+        immobilize();
         gameOverText.gameObject.SetActive(true);
         keysEnabled = false;
+
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(deathSound);
+        }
+        catch
+        { }
 
         StartCoroutine(Respawn(3));
     }
@@ -361,6 +416,8 @@ public abstract class BasePlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+
+        changeForm(startForm);
     }
 
     public void updateHearts()
@@ -380,5 +437,15 @@ public abstract class BasePlayerController : MonoBehaviour
         {
             heart3.GetComponent<UnityEngine.UI.Image>().sprite = blackHeartSprite;
         }
+    }
+
+    public void immobilize()
+    {
+        keysEnabled = false;
+    }
+
+    public void mobilize()
+    {
+        keysEnabled = true;
     }
 }
