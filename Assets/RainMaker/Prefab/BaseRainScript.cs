@@ -11,12 +11,6 @@ namespace DigitalRuby.RainMaker
         [Tooltip("Camera the rain should hover over, defaults to main camera")]
         public Camera Camera;
 
-        [Tooltip("Light rain looping clip")]
-        public AudioClip RainSoundLight;
-
-        [Tooltip("Medium rain looping clip")]
-        public AudioClip RainSoundMedium;
-
         [Tooltip("Heavy rain looping clip")]
         public AudioClip RainSoundHeavy;
 
@@ -54,17 +48,11 @@ namespace DigitalRuby.RainMaker
 
         [Tooltip("Whether wind should be enabled.")]
         public bool EnableWind = true;
-
-        protected LoopingAudioSource audioSourceRainLight;
-        protected LoopingAudioSource audioSourceRainMedium;
-        protected LoopingAudioSource audioSourceRainHeavy;
-        protected LoopingAudioSource audioSourceRainCurrent;
-        protected LoopingAudioSource audioSourceWind;
+        
         protected Material rainMaterial;
         protected Material rainExplosionMaterial;
         protected Material rainMistMaterial;
 
-        private float lastRainIntensityValue = -1.0f;
         private float nextWindTime;
 
         private void UpdateWind()
@@ -91,7 +79,6 @@ namespace DigitalRuby.RainMaker
                         WindZone.transform.rotation = Quaternion.Euler(UnityEngine.Random.Range(-30.0f, 30.0f), UnityEngine.Random.Range(0.0f, 360.0f), 0.0f);
                     }
                     nextWindTime = Time.time + UnityEngine.Random.Range(WindChangeInterval.x, WindChangeInterval.y);
-                    audioSourceWind.Play((WindZone.windMain / WindSpeedRange.z) * WindSoundVolumeModifier);
                 }
             }
             else
@@ -100,98 +87,46 @@ namespace DigitalRuby.RainMaker
                 {
                     WindZone.gameObject.SetActive(false);
                 }
-                audioSourceWind.Stop();
             }
-
-            audioSourceWind.Update();
         }
 
         private void CheckForRainChange()
         {
-            if (lastRainIntensityValue != RainIntensity)
+            if (RainFallParticleSystem != null)
             {
-                lastRainIntensityValue = RainIntensity;
-                if (RainIntensity <= 0.01f)
+                ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
+                e.enabled = RainFallParticleSystem.GetComponent<Renderer>().enabled = true;
+                if (!RainFallParticleSystem.isPlaying)
                 {
-                    if (audioSourceRainCurrent != null)
-                    {
-                        audioSourceRainCurrent.Stop();
-                        audioSourceRainCurrent = null;
-                    }
-                    if (RainFallParticleSystem != null)
-                    {
-                        ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
-                        e.enabled = false;
-                        RainFallParticleSystem.Stop();
-                    }
-                    if (RainMistParticleSystem != null)
-                    {
-                        ParticleSystem.EmissionModule e = RainMistParticleSystem.emission;
-                        e.enabled = false;
-                        RainMistParticleSystem.Stop();
-                    }
+                    RainFallParticleSystem.Play();
+                }
+                ParticleSystem.MinMaxCurve rate = e.rate;
+                rate.mode = ParticleSystemCurveMode.Constant;
+                rate.constantMin = rate.constantMax = RainFallEmissionRate();
+                e.rate = rate;
+            }
+            if (RainMistParticleSystem != null)
+            {
+                ParticleSystem.EmissionModule e = RainMistParticleSystem.emission;
+                e.enabled = RainMistParticleSystem.GetComponent<Renderer>().enabled = true;
+                if (!RainMistParticleSystem.isPlaying)
+                {
+                    RainMistParticleSystem.Play();
+                }
+                float emissionRate;
+                if (RainIntensity < RainMistThreshold)
+                {
+                    emissionRate = 0.0f;
                 }
                 else
                 {
-                    LoopingAudioSource newSource;
-                    if (RainIntensity >= 0.67f)
-                    {
-                        newSource = audioSourceRainHeavy;
-                    }
-                    else if (RainIntensity >= 0.33f)
-                    {
-                        newSource = audioSourceRainMedium;
-                    }
-                    else
-                    {
-                        newSource = audioSourceRainLight;
-                    }
-                    if (audioSourceRainCurrent != newSource)
-                    {
-                        if (audioSourceRainCurrent != null)
-                        {
-                            audioSourceRainCurrent.Stop();
-                        }
-                        audioSourceRainCurrent = newSource;
-                        audioSourceRainCurrent.Play(1.0f);
-                    }
-                    if (RainFallParticleSystem != null)
-                    {
-                        ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
-                        e.enabled = RainFallParticleSystem.GetComponent<Renderer>().enabled = true;
-                        if (!RainFallParticleSystem.isPlaying)
-                        {
-                            RainFallParticleSystem.Play();
-                        }
-                        ParticleSystem.MinMaxCurve rate = e.rate;
-                        rate.mode = ParticleSystemCurveMode.Constant;
-                        rate.constantMin = rate.constantMax = RainFallEmissionRate();
-                        e.rate = rate;
-                    }
-                    if (RainMistParticleSystem != null)
-                    {
-                        ParticleSystem.EmissionModule e = RainMistParticleSystem.emission;
-                        e.enabled = RainMistParticleSystem.GetComponent<Renderer>().enabled = true;
-                        if (!RainMistParticleSystem.isPlaying)
-                        {
-                            RainMistParticleSystem.Play();
-                        }
-                        float emissionRate;
-                        if (RainIntensity < RainMistThreshold)
-                        {
-                            emissionRate = 0.0f;
-                        }
-                        else
-                        {
-                            // must have RainMistThreshold or higher rain intensity to start seeing mist
-                            emissionRate = MistEmissionRate();
-                        }
-                        ParticleSystem.MinMaxCurve rate = e.rate;
-                        rate.mode = ParticleSystemCurveMode.Constant;
-                        rate.constantMin = rate.constantMax = emissionRate;
-                        e.rate = rate;
-                    }
+                    // must have RainMistThreshold or higher rain intensity to start seeing mist
+                    emissionRate = MistEmissionRate();
                 }
+                ParticleSystem.MinMaxCurve rate = e.rate;
+                rate.mode = ParticleSystemCurveMode.Constant;
+                rate.constantMin = rate.constantMax = emissionRate;
+                e.rate = rate;
             }
         }
 
@@ -212,12 +147,7 @@ namespace DigitalRuby.RainMaker
             {
                 Camera = Camera.main;
             }
-
-            audioSourceRainLight = new LoopingAudioSource(this, RainSoundLight);
-            audioSourceRainMedium = new LoopingAudioSource(this, RainSoundMedium);
-            audioSourceRainHeavy = new LoopingAudioSource(this, RainSoundHeavy);
-            audioSourceWind = new LoopingAudioSource(this, WindSound);
-
+           
             if (RainFallParticleSystem != null)
             {
                 ParticleSystem.EmissionModule e = RainFallParticleSystem.emission;
@@ -254,6 +184,15 @@ namespace DigitalRuby.RainMaker
                 }
                 rainRenderer.material = rainMistMaterial;
             }
+            if(RainSoundHeavy != null)
+            {
+                try
+                {
+                    GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(RainSoundHeavy);
+                }
+                catch
+                { }
+            }
         }
 
         protected virtual void Update()
@@ -271,9 +210,6 @@ namespace DigitalRuby.RainMaker
 
             CheckForRainChange();
             UpdateWind();
-            audioSourceRainLight.Update();
-            audioSourceRainMedium.Update();
-            audioSourceRainHeavy.Update();
         }
 
         protected virtual float RainFallEmissionRate()
