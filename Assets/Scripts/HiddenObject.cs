@@ -21,7 +21,7 @@ public class HiddenObject : MonoBehaviour {
             tmp.a = 255;
             image.color = tmp;
 
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
     }
 }

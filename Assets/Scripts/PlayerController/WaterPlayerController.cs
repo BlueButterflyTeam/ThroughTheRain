@@ -21,9 +21,12 @@ public class WaterPlayerController : BasePlayerController {
 
         if (keysEnabled)
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Space) && jumpsRemaining > 0)
             {
-                switch(currentForm)
+                isGrounded = false;
+                jumpsRemaining = 0;
+
+                switch (currentForm)
                 {
                     case forms.Water:
                         horizontalBoost = true;
