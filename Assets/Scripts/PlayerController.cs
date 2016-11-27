@@ -177,6 +177,14 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.name.Contains("Arrow"))
+        {
+            getHit();
+        }
+    }
+
     void changeForm(forms form)
     {
         currentForm = form;
@@ -276,8 +284,7 @@ public class PlayerController : MonoBehaviour
 
     public void getHit()
     {
-        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
-        
+        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));        
 
         if (life > 0)
         {            

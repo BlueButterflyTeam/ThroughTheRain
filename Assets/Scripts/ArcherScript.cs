@@ -1,18 +1,21 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnnemyScript : MonoBehaviour
+public class ArcherScript : MonoBehaviour
 {
     Rigidbody2D rigidBody;
-    
+
+    public GameObject rightBullet;
+    public GameObject leftBullet;
+
     void Start()
     {
         rigidBody = GetComponent<Rigidbody2D>();
     }
-	
-	void Update ()
+
+    void Update()
     {
-        
+
     }
 
     void OnTriggerEnter2D(Collider2D collider)
@@ -33,7 +36,7 @@ public class EnnemyScript : MonoBehaviour
         {
             Destroy(gameObject);
         }
-       
+
     }
 
     void OnCollisionEnter2D(Collision2D collider)
@@ -49,7 +52,19 @@ public class EnnemyScript : MonoBehaviour
             else
             {
                 collider.collider.GetComponent<PlayerController>().getHit();
-            }            
+            }
+        }
+    }
+
+    public void shoot(bool fromRight)
+    {
+        if (fromRight)
+        {
+            Instantiate(rightBullet, new Vector3(transform.position.x + 1.5f, transform.position.y, transform.position.z), Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(leftBullet, new Vector3(transform.position.x - 1.5f, transform.position.y, transform.position.z), Quaternion.identity);
         }
     }
 }
