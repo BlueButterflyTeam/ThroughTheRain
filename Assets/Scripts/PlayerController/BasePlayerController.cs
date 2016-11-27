@@ -28,6 +28,11 @@ public abstract class BasePlayerController : MonoBehaviour
     public AudioClip windSound;
     public AudioClip deathSound;
 
+    public AudioClip popSound1;
+    public AudioClip popSound2;
+    public AudioClip popSound3;
+    public AudioClip popSound4;
+
     private AudioClip shootSound;
 
     private bool isCharging = false;
@@ -189,11 +194,17 @@ public abstract class BasePlayerController : MonoBehaviour
 
         try
         {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(popSound1, popSound2, popSound3, popSound4);
+        }
+        catch
+        { }
+
+        try
+        {
             Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
         }
         catch
-        {
-        }
+        { }
 
         if (currentForm == forms.Water)
         {

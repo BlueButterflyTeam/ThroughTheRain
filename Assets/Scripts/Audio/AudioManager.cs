@@ -4,12 +4,15 @@ using System.Collections;
 public class AudioManager : MonoBehaviour {
 
     public AudioSource musicSource;
-    public AudioSource soundSource;
+    public System.Collections.Generic.LinkedList<AudioSource> soundSources = new System.Collections.Generic.LinkedList<AudioSource>();
 
     public static AudioManager instance = null;
 
     public float lowPitchRange = 0.95f;
     public float highPitchRange = 1.05f;
+
+    private float soundVolume = .5f;
+    private float musicVolume = .5f;
 
 	void Awake () {
         if (instance == null)
@@ -31,34 +34,44 @@ public class AudioManager : MonoBehaviour {
         musicSource.Stop();
     }
 
-    public void PlaySingle(AudioClip clip)
-    {
-        soundSource.clip = clip;
-        soundSource.Play();
-    }
-
     public void RandomizeSfx(params AudioClip [] clips)
     {
         int randInt = Random.Range(0, clips.Length);
         float randPitch = Random.Range(lowPitchRange, highPitchRange);
 
-        soundSource.pitch = randPitch;
-        soundSource.clip = clips[randInt];
-        soundSource.Play();
+        AudioSource audioSource = gameObject.AddComponent<AudioSource>();
+        audioSource.clip = clips[randInt];
+        audioSource.pitch = randPitch;
+        audioSource.volume = soundVolume;
+        audioSource.Play();
+
+        soundSources.AddLast(audioSource);
+        
+        StartCoroutine(WaitAndDestroySound(audioSource));
     }
 
     public void MusicVolume(float vol)
     {
+        musicVolume = vol;
         musicSource.volume = vol;
     }
 
     public void SoundVolume(float vol)
     {
-        soundSource.volume = vol;
+        soundVolume = vol;
     }
 
     public bool isSoundPlaying()
     {
-        return soundSource.isPlaying;
+        return soundSources.Count != 0;
+    }
+
+    private IEnumerator WaitAndDestroySound(AudioSource audioSource)
+    {
+        while(audioSource.isPlaying)
+            yield return null;
+
+        soundSources.Remove(audioSource);
+        Destroy(audioSource);
     }
 }
