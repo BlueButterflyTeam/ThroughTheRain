@@ -386,7 +386,7 @@ GameObject:
   - 222: {fileID: 116505300}
   - 114: {fileID: 116505299}
   m_Layer: 5
-  m_Name: HelpText
+  m_Name: CreditsText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -442,12 +442,14 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 0.6
-  m_Text: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-    nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-    fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-    culpa qui officia deserunt mollit anim id est laborum.
+  m_Text: 'Celine Leplongeon - Developer & AI developer
+
+    Aymeric Masse - Lead Artist
+
+    Paul Pattyn - Lead Developer & Level design
+
+
+    "Through the rain" is 2D, platform game developed by the BlueButterfly team.'
 --- !u!222 &116505300
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1957,8 +1959,8 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 576, y: -262.37128}
-  m_SizeDelta: {x: 852, y: 92.94851}
+  m_AnchoredPosition: {x: 576, y: -262.31183}
+  m_SizeDelta: {x: 852, y: 92.92473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &798340118
 MonoBehaviour:
@@ -2272,12 +2274,12 @@ GameObject:
   - 222: {fileID: 993923240}
   - 114: {fileID: 993923239}
   m_Layer: 5
-  m_Name: HelpPanel
+  m_Name: CreditsPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &993923237
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2638,7 +2640,7 @@ GameObject:
   - 222: {fileID: 1093988170}
   - 114: {fileID: 1093988169}
   m_Layer: 5
-  m_Name: HelpLabel
+  m_Name: CreditsLabel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2674,7 +2676,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.19117647, g: 0.19117647, b: 0.19117647, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2694,7 +2696,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Help
+  m_Text: Credits
 --- !u!222 &1093988170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2736,8 +2738,8 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 576, y: -169.42276}
-  m_SizeDelta: {x: 852, y: 92.94851}
+  m_AnchoredPosition: {x: 576, y: -169.38708}
+  m_SizeDelta: {x: 852, y: 92.92473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1181494776
 MonoBehaviour:
@@ -3016,7 +3018,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1317448357
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3867,8 +3869,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 576, y: -76.47426}
-  m_SizeDelta: {x: 852, y: 92.94851}
+  m_AnchoredPosition: {x: 576, y: -76.462364}
+  m_SizeDelta: {x: 852, y: 92.92473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1625943996
 MonoBehaviour:
@@ -4146,8 +4148,8 @@ RectTransform:
   m_RootOrder: 3
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 576, y: -355.31976}
-  m_SizeDelta: {x: 852, y: 92.94851}
+  m_AnchoredPosition: {x: 576, y: -355.23654}
+  m_SizeDelta: {x: 852, y: 92.92473}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1815308779
 MonoBehaviour:
