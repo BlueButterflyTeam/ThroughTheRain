@@ -330,6 +330,11 @@ public class PlayerController : MonoBehaviour
         return isCharging;
     }
 
+    public bool isPlayerSmashing()
+    {
+        return smashing;
+    }
+
     private void environmentalPower()
     {
         ArrayList objects;

@@ -224,7 +224,7 @@ public class Water : MonoBehaviour
     {
         if (Hit.name == "Player")
         {
-            Hit.GetComponent<ForestPlayerController>().setInWater(true);
+            Hit.GetComponent<BasePlayerController>().setInWater(true);
         }
     }
 
@@ -232,7 +232,7 @@ public class Water : MonoBehaviour
     {
         if (Hit.name == "Player")
         {
-            Hit.GetComponent<ForestPlayerController>().setInWater(false);
+            Hit.GetComponent<BasePlayerController>().setInWater(false);
         }
     }
 }
