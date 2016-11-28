@@ -215,7 +215,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Congratulation!
+  m_Text: Congratulations!
 --- !u!114 &114000011106219556
 MonoBehaviour:
   m_ObjectHideFlags: 1
