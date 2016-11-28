@@ -4698,7 +4698,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'This is a special object, most of them are hidden
 
-    Find them all for more points'
+    Find them all!'
 --- !u!222 &1357923169
 CanvasRenderer:
   m_ObjectHideFlags: 0

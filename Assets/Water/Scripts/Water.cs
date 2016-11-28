@@ -231,8 +231,6 @@ public class Water : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D Hit)
     {
-        
-
         if (Hit.name == "Player")
         {
             try
