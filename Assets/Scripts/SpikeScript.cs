@@ -3,13 +3,15 @@ using System.Collections;
 
 public class SpikeScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.name == "Player")
+        {
+            // Knock up the player
+            Rigidbody2D rigidbody = other.GetComponent<Rigidbody2D>();
+            rigidbody.AddForce(new Vector2(0, 500));
+
+            other.GetComponent<BasePlayerController>().getHit();
+        }
+    }
 }

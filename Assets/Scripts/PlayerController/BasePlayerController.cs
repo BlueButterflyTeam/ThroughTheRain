@@ -44,7 +44,7 @@ public abstract class BasePlayerController : MonoBehaviour
     private GameObject rightBullet;
     private GameObject leftBullet;
 
-    private bool isGrounded;
+    protected bool isGrounded;
 
     private Vector3 scale;
 
@@ -71,7 +71,7 @@ public abstract class BasePlayerController : MonoBehaviour
     {
         life = 3;
         maxNbJumps = 1;
-        isGrounded = true;
+        isGrounded = false;
         scale = transform.localScale;
         rigidBody = GetComponent<Rigidbody2D>();
         
@@ -185,6 +185,7 @@ public abstract class BasePlayerController : MonoBehaviour
         if (col.gameObject.tag == "Ground" || col.gameObject.tag == "MovableCloud")
         {
             jumpsRemaining = maxNbJumps;
+            isGrounded = true;
         }
     }
 
@@ -310,8 +311,6 @@ public abstract class BasePlayerController : MonoBehaviour
 
     public void getHit()
     {
-        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
-
         try
         {
             GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(playerHitSound);
@@ -340,7 +339,7 @@ public abstract class BasePlayerController : MonoBehaviour
     {
         keysEnabled = false;
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(.5f);
 
         keysEnabled = true;        
     }
@@ -375,7 +374,7 @@ public abstract class BasePlayerController : MonoBehaviour
         for (int i = 0; i < size; i++)
         {
             GameObject obj = objects[i];
-            
+
             if (obj.transform.GetChild(0).GetComponent<Renderer>().isVisible)
             {
                 results.Add(obj);
