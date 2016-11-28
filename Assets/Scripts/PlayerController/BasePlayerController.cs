@@ -33,7 +33,7 @@ public abstract class BasePlayerController : MonoBehaviour
     public AudioClip popSound3;
     public AudioClip popSound4;
 
-    private AudioClip shootSound;
+    protected AudioClip shootSound;
 
     private bool isCharging = false;
     private bool smashing = false;
@@ -41,8 +41,8 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private int numberOfForms;
 
-    private GameObject rightBullet;
-    private GameObject leftBullet;
+    protected GameObject rightBullet;
+    protected GameObject leftBullet;
 
     protected bool isGrounded;
 
@@ -50,9 +50,9 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private bool facingRight = true;
 
-    private bool isInWater;
+    protected bool isInWater;
 
-    private int maxNbJumps;
+    protected int maxNbJumps;
     protected int jumpsRemaining;
 
     protected Rigidbody2D rigidBody;
@@ -61,7 +61,7 @@ public abstract class BasePlayerController : MonoBehaviour
     protected forms currentForm;
     protected forms startForm = forms.Earth;
 
-    private int life;
+    protected int life;
 
     protected bool keysEnabled = true;
 
@@ -189,7 +189,7 @@ public abstract class BasePlayerController : MonoBehaviour
         }
     }
 
-    protected void changeForm(forms form)
+    protected virtual void changeForm(forms form)
     {
         currentForm = form;
 
@@ -384,7 +384,7 @@ public abstract class BasePlayerController : MonoBehaviour
         return results;
     }
 
-    private void die()
+    protected void die()
     {
         immobilize();
         gameOverText.gameObject.SetActive(true);
