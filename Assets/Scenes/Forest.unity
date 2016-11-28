@@ -5307,11 +5307,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4000011957636642, guid: 1e3b06acd20cc0d4b96e8439dfb53503, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 42
+      value: 42.55
       objectReference: {fileID: 0}
     - target: {fileID: 4000011957636642, guid: 1e3b06acd20cc0d4b96e8439dfb53503, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 23.7
+      value: 23.67
       objectReference: {fileID: 0}
     - target: {fileID: 4000011957636642, guid: 1e3b06acd20cc0d4b96e8439dfb53503, type: 2}
       propertyPath: m_LocalPosition.z
