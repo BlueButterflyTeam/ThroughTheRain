@@ -50,7 +50,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private bool facingRight = true;
 
-    private bool isInWater;
+    protected bool isInWater;
 
     protected int maxNbJumps;
     protected int jumpsRemaining;
