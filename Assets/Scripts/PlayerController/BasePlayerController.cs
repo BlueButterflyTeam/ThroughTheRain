@@ -33,6 +33,8 @@ public abstract class BasePlayerController : MonoBehaviour
     public AudioClip popSound3;
     public AudioClip popSound4;
 
+    public GameObject PauseMenu;
+
     protected AudioClip shootSound;
 
     private bool isCharging = false;
@@ -64,6 +66,7 @@ public abstract class BasePlayerController : MonoBehaviour
     protected int life;
 
     protected bool keysEnabled = true;
+    protected bool paused = false;
 
 
 
@@ -77,6 +80,8 @@ public abstract class BasePlayerController : MonoBehaviour
         
         jumpsRemaining = maxNbJumps;
         numberOfForms = gameWorld.GetComponent<GameWorldState>().numberOfFormsInLevel;
+
+        Cursor.visible = false;
     }
 
     public virtual void FixedUpdate()
@@ -144,7 +149,12 @@ public abstract class BasePlayerController : MonoBehaviour
 
     public virtual void Update()
     {
-        if(keysEnabled)
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            togglePause();
+        }
+
+        if (keysEnabled)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
@@ -456,5 +466,33 @@ public abstract class BasePlayerController : MonoBehaviour
     public void mobilize()
     {
         keysEnabled = true;
+    }
+
+    public void togglePause()
+    {
+        if(paused)
+        {
+            // Reset the pause menu
+            Transform children = PauseMenu.transform.GetChild(0).transform;
+
+            children.GetChild(1).gameObject.SetActive(true);
+            for (int i = 2; i < children.childCount; i++)
+            {
+                children.GetChild(i).gameObject.SetActive(false);
+            }
+
+            Time.timeScale = 1;
+            PauseMenu.SetActive(false);
+            
+            paused = false;
+            Cursor.visible = false;
+        }
+        else
+        {
+            paused = true;
+            Time.timeScale = 0;
+            PauseMenu.SetActive(true);
+            Cursor.visible = true;
+        }
     }
 }

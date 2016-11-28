@@ -26,11 +26,14 @@ public class BulletScript : MonoBehaviour
         {
             if(collider.name.Contains("Player"))
             {
-                // Knock back the player
-                Rigidbody2D rigidbody = collider.GetComponent<Rigidbody2D>();
-                rigidbody.AddForce(new Vector2(Mathf.Sign(speed.x) * 500, 0));
+                if(!collider.GetComponent<BasePlayerController>().isPlayerCharging())
+                {
+                    // Knock back the player
+                    Rigidbody2D rigidbody = collider.GetComponent<Rigidbody2D>();
+                    rigidbody.AddForce(new Vector2(Mathf.Sign(speed.x) * 500, 0));
 
-                collider.GetComponent<BasePlayerController>().getHit();
+                    collider.GetComponent<BasePlayerController>().getHit();
+                }
             }
 
             Destroy(gameObject);
