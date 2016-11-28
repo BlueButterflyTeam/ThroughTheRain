@@ -48,7 +48,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
     private Vector3 scale;
 
-    private bool facingRight = true;
+    protected bool facingRight = true;
 
     protected bool isInWater;
 
