@@ -57,7 +57,7 @@ public abstract class BasePlayerController : MonoBehaviour
 
     protected Rigidbody2D rigidBody;
 
-    protected enum forms { Water, Air, Fire, Earth };
+    public enum forms { Water, Air, Fire, Earth };
     protected forms currentForm;
     protected forms startForm = forms.Earth;
 
@@ -389,7 +389,7 @@ public abstract class BasePlayerController : MonoBehaviour
         return results;
     }
 
-    protected void die()
+    public void die()
     {
         immobilize();
         gameOverText.gameObject.SetActive(true);

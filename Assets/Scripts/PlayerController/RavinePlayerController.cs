@@ -13,8 +13,8 @@ public class RavinePlayerController : BasePlayerController {
     {
         base.Start();
 
-        startForm = forms.Water;
-        changeForm(forms.Water);
+        startForm = forms.Air;
+        changeForm(forms.Air);
     }
 
     // Update is called once per frame
