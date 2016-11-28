@@ -43,15 +43,15 @@ public class ArcherScript : MonoBehaviour
     {
         if ((collider.collider.name.Contains("Player")))
         {
-            if (collider.collider.GetComponent<PlayerController>().isPlayerCharging())
+            if (collider.collider.GetComponent<BasePlayerController>().isPlayerCharging())
             {
-                collider.collider.GetComponent<PlayerController>().stopCharge();
-                StartCoroutine(collider.collider.GetComponent<PlayerController>().KnockBack());
+                collider.collider.GetComponent<BasePlayerController>().stopCharge();
+                StartCoroutine(collider.collider.GetComponent<BasePlayerController>().KnockBack());
                 Destroy(gameObject);
             }
             else
             {
-                collider.collider.GetComponent<PlayerController>().getHit();
+                collider.collider.GetComponent<BasePlayerController>().getHit();
             }
         }
     }

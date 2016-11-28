@@ -46,7 +46,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1000010451372148
 GameObject:
   m_ObjectHideFlags: 0
@@ -58,7 +58,7 @@ GameObject:
   - 222: {fileID: 222000011192327148}
   - 114: {fileID: 114000011106219556}
   m_Layer: 5
-  m_Name: heart3
+  m_Name: Heart3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ GameObject:
   - 222: {fileID: 222000011806306022}
   - 114: {fileID: 114000014044390590}
   m_Layer: 5
-  m_Name: ho2
+  m_Name: HiddenObject2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -92,7 +92,7 @@ GameObject:
   - 222: {fileID: 222000014089788708}
   - 114: {fileID: 114000011748909430}
   m_Layer: 5
-  m_Name: ho1
+  m_Name: HiddenObject1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -126,7 +126,7 @@ GameObject:
   - 222: {fileID: 222000010275273086}
   - 114: {fileID: 114000013405801870}
   m_Layer: 5
-  m_Name: heart2
+  m_Name: Heart2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,7 @@ GameObject:
   - 222: {fileID: 222000011033916702}
   - 114: {fileID: 114000012990210174}
   m_Layer: 5
-  m_Name: ho3
+  m_Name: HiddenObject3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -160,7 +160,7 @@ GameObject:
   - 222: {fileID: 222000012801041302}
   - 114: {fileID: 114000012252071916}
   m_Layer: 5
-  m_Name: heart1
+  m_Name: Heart1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

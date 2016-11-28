@@ -12,6 +12,7 @@ public class VolcanoPlayerController : BasePlayerController {
     public override void Start () {
         base.Start();
 
+        startForm = forms.Fire;
         changeForm(forms.Fire);
     }
 	
@@ -104,6 +105,76 @@ public class VolcanoPlayerController : BasePlayerController {
                 break;
             default:
                 break;
+        }
+    }
+
+    protected override void changeForm(forms form)
+    {
+        currentForm = form;
+
+        try
+        {
+            GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(popSound1, popSound2, popSound3, popSound4);
+        }
+        catch
+        { }
+
+        try
+        {
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>(), false);
+        }
+        catch
+        { }
+
+        if (currentForm == forms.Water)
+        {
+            GetComponent<SpriteRenderer>().sprite = waterSprite;
+
+            life = 0;
+            updateHearts();
+            die();
+        }
+        if (currentForm == forms.Air)
+        {
+            moveSpeed = 5;
+            jumpHeight = 400;
+
+            GetComponent<SpriteRenderer>().sprite = airSprite;
+            rightBullet = Resources.Load("RightAirBullet") as GameObject;
+            leftBullet = Resources.Load("LeftAirBullet") as GameObject;
+            shootSound = waterPulseSound;
+            maxNbJumps = 2;
+        }
+        if (currentForm == forms.Fire)
+        {
+            moveSpeed = 4;
+            jumpHeight = 400;
+
+            try
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), GameObject.Find("Fire").GetComponent<Collider2D>());
+            }
+            catch
+            {
+            }
+
+            GetComponent<SpriteRenderer>().sprite = fireSprite;
+            rightBullet = Resources.Load("RightFireBullet") as GameObject;
+            leftBullet = Resources.Load("LeftFireBullet") as GameObject;
+            shootSound = fireballSound;
+            maxNbJumps = 1;
+        }
+        if (currentForm == forms.Earth)
+        {
+            moveSpeed = 3;
+            jumpHeight = 200;
+
+            GetComponent<SpriteRenderer>().sprite = earthSprite;
+            maxNbJumps = 1;
+        }
+        if (isGrounded)
+        {
+            jumpsRemaining = maxNbJumps;
         }
     }
 
