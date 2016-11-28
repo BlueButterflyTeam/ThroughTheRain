@@ -37,6 +37,7 @@ public class FinishLevel : MonoBehaviour {
             yield return null;
         }
 
+        Cursor.visible = true;
         async.allowSceneActivation = true;
     }
 }
