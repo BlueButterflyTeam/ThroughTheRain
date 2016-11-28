@@ -51,6 +51,10 @@ public class ArcherScript : MonoBehaviour
             }
             else
             {
+                // Knock back the player
+                Rigidbody2D rigidbody = collider.collider.GetComponent<Rigidbody2D>();
+                rigidbody.AddForce(new Vector2(-Mathf.Sign(rigidbody.velocity.x) * 500, 0));
+
                 collider.collider.GetComponent<BasePlayerController>().getHit();
             }
         }

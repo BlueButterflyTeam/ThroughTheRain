@@ -22,8 +22,17 @@ public class BulletScript : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(!collider.name.Contains("Trigger"))
+        if(!collider.name.Contains("Trigger") && !collider.name.Contains("Archer"))
         {
+            if(collider.name.Contains("Player"))
+            {
+                // Knock back the player
+                Rigidbody2D rigidbody = collider.GetComponent<Rigidbody2D>();
+                rigidbody.AddForce(new Vector2(Mathf.Sign(speed.x) * 500, 0));
+
+                collider.GetComponent<BasePlayerController>().getHit();
+            }
+
             Destroy(gameObject);
         }
     }
