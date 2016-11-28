@@ -46,7 +46,15 @@ public class WaterPlayerController : BasePlayerController {
         // TODO play sound
         if (horizontalBoost)
         {
-            rigidBody.AddForce(new Vector2(400, 0));
+            if (facingRight)
+            {
+                rigidBody.AddForce(new Vector2(400, 0));
+            }
+            else
+            {
+                rigidBody.AddForce(new Vector2(-400, 0));
+            }
+            
             StartCoroutine(WaitAndStopHorizontalBoost(.3f));
         }
 
