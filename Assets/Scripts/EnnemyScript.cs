@@ -46,6 +46,10 @@ public class EnnemyScript : MonoBehaviour
                 StartCoroutine(other.collider.GetComponent<BasePlayerController>().KnockBack());
                 Destroy(gameObject);
             }
+            else if(other.collider.GetComponent<BasePlayerController>().isPlayerSmashing())
+            {
+                Destroy(gameObject);
+            }
             else
             {
                 // Knock back the player
