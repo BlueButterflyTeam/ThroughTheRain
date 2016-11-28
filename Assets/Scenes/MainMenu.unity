@@ -1310,7 +1310,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Help
+  m_Text: Credits
 --- !u!222 &527597195
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1937,7 +1937,7 @@ GameObject:
   - 114: {fileID: 798340118}
   - 114: {fileID: 798340121}
   m_Layer: 5
-  m_Name: HelpButton
+  m_Name: CreditSButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
