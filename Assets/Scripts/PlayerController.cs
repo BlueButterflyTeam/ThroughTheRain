@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour
 
     public UnityEngine.UI.Text gameOverText;
     public GameObject rainPrefab;
+    public GameObject windPrefab;
+
     public UnityEngine.UI.Image heart1, heart2, heart3;
     public float moveSpeed;
     public float jumpHeight;
@@ -48,6 +50,7 @@ public class PlayerController : MonoBehaviour
     int life;
 
     private bool keysEnabled = true;
+    private bool airPowerToRight = true;
 
     void Start()
     {
@@ -168,9 +171,17 @@ public class PlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D col)
     {
-        if (col.gameObject.tag == "Ground")
+        if (col.gameObject.tag == "Ground" || col.gameObject.tag == "MovableCloud")
         {
             jumpsRemaining = maxNbJumps;
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D collider)
+    {
+        if(collider.name.Contains("Arrow"))
+        {
+            getHit();
         }
     }
 
@@ -273,19 +284,21 @@ public class PlayerController : MonoBehaviour
 
     public void getHit()
     {
-        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));
-        StartCoroutine(KnockBack());
+        rigidBody.AddForce(new Vector2(-Mathf.Sign(rigidBody.velocity.x) * 500, 0));        
 
         if (life > 0)
         {            
             life--;
             updateHearts();
+            
         }
 
         if(life == 0)
         {
             die();
         }
+        else
+            StartCoroutine(KnockBack());
     }
 
     public string getForm()
@@ -319,40 +332,102 @@ public class PlayerController : MonoBehaviour
 
     private void environmentalPower()
     {
+        ArrayList objects;
+
         switch (currentForm)
         {
             case forms.Air:
+                // Visual effect
+                GameObject windFX = (GameObject)Object.Instantiate(windPrefab, transform.position, Quaternion.identity);
+
+                Vector3 position = transform.position;
+
+                if (airPowerToRight)
+                {
+                    position.x += windPrefab.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+                }
+                else
+                {
+                    windFX.GetComponent<SpriteRenderer>().flipX = true;
+                    position.x -= windPrefab.GetComponent<SpriteRenderer>().bounds.size.x / 2;
+                }
+
+                windFX.transform.position = position;
+
+                Destroy(windFX, 1.7f);
+
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("MovableCloud");
+
+                foreach (GameObject obj in objects)
+                {
+                    obj.GetComponent<MoveCloud>().moveCloud(airPowerToRight);
+                }
+
+                airPowerToRight = !airPowerToRight;
+
                 break;
             case forms.Earth:
+                // Visual effect
+                GameObject.Find("Main Camera").GetComponent<CameraScript>().shake(1);
+
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("Destructible");
+
+                foreach (GameObject obj in objects)
+                {
+                    obj.GetComponent<BreakBarrier>().breakBarrier();
+                }
+
                 break;
             case forms.Fire:
+
                 break;
             case forms.Water:
-                Object rainFX = Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
+                // Visual effect
+                GameObject rainFX = (GameObject)Object.Instantiate(rainPrefab, transform.position, Quaternion.identity);
                 Destroy(rainFX, 3);
 
-                GameObject[] objects = GameObject.FindGameObjectsWithTag("Rain");
-
-                int size = objects.Length;
+                // Objects that are affected
+                objects = getVisbleObjectWithTag("Rain");
                 
-                for (int i = 0; i < size; i++)
+                foreach(GameObject obj in objects)
                 {
-                    GameObject obj = objects[i];
-                    if(obj.GetComponent<Renderer>().isVisible)
-                    {
-                        obj.GetComponent<MoveUp>().moveUp();
-                    }
+                    obj.GetComponent<MoveUp>().moveUp();
                 }
 
                 break;
         }
     }
 
+    private ArrayList getVisbleObjectWithTag(string tag)
+    {
+        int size;
+        GameObject[] objects;
+        ArrayList results = new ArrayList();
+
+        objects = GameObject.FindGameObjectsWithTag(tag);
+
+        size = objects.Length;
+
+        for (int i = 0; i < size; i++)
+        {
+            GameObject obj = objects[i];
+            
+            if (obj.transform.GetChild(0).GetComponent<Renderer>().isVisible)
+            {
+                results.Add(obj);
+            }
+        }
+
+        return results;
+    }
+
     private void die()
     {
         gameOverText.gameObject.SetActive(true);
         keysEnabled = false;
-
+        
         StartCoroutine(Respawn(3));
     }
 
@@ -371,6 +446,8 @@ public class PlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
+
+        changeForm(forms.Water);
     }
 
     private IEnumerator Wait(float time)
@@ -378,7 +455,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(time);
     }
 
-        void updateHearts()
+    void updateHearts()
     {
         if (life == 0)
         {

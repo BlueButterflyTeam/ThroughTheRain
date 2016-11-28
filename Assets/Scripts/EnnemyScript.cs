@@ -1,53 +1,59 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnnemyScript : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class EnnemyScript : MonoBehaviour
+{
+    Rigidbody2D rigidBody;
+    
+    void Start()
+    {
+        rigidBody = GetComponent<Rigidbody2D>();
+    }
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+	void Update ()
+    {
+        
+    }
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.name.Contains("AirBullet"))
+        if (collider.name.Contains("AirBullet"))
         {
-            if(collider.transform.position.x > transform.position.x)
-                {
-                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(-5, 0);
+            if (collider.transform.position.x > transform.position.x)
+            {
+                rigidBody.AddForce(new Vector2(-200, 0));
             }
             else
             {
-                transform.GetComponent<Rigidbody2D>().velocity = new Vector2(5, 0);
+                rigidBody.AddForce(new Vector2(200, 0));
             }
-            
+
         }
-        else if(collider.name.Contains("Bullet"))
+        else if (collider.name.Contains("Bullet"))
         {
             Destroy(gameObject);
         }
        
     }
 
-    void OnCollisionEnter2D(Collision2D collider)
+    void OnCollisionEnter2D(Collision2D other)
     {
-         if ((collider.collider.name.Contains("player")))
+        if ((other.collider.name.Contains("Player")))
         {
-            if (collider.collider.GetComponent<PlayerController>().isPlayerCharging())
+            if (other.collider.GetComponent<BasePlayerController>().isPlayerCharging())
             {
-                collider.collider.GetComponent<PlayerController>().stopCharge();
-                StartCoroutine(collider.collider.GetComponent<PlayerController>().KnockBack());
+                other.collider.GetComponent<BasePlayerController>().stopCharge();
+                StartCoroutine(other.collider.GetComponent<BasePlayerController>().KnockBack());
                 Destroy(gameObject);
             }
             else
             {
-                collider.collider.GetComponent<PlayerController>().getHit();
-            }
+                // Knock back the player
+                Rigidbody2D rigidbody = other.collider.GetComponent<Rigidbody2D>();
+                rigidbody.AddForce(new Vector2(-Mathf.Sign(rigidbody.velocity.x) * 200, 0));
+
+                other.collider.GetComponent<BasePlayerController>().getHit();
+            }            
         }
     }
 }

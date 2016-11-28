@@ -222,17 +222,17 @@ public class Water : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D Hit)
     {
-        if (Hit.name == "player")
+        if (Hit.name == "Player")
         {
-            Hit.GetComponent<PlayerController>().setInWater(true);
+            Hit.GetComponent<BasePlayerController>().setInWater(true);
         }
     }
 
     void OnTriggerExit2D(Collider2D Hit)
     {
-        if (Hit.name == "player")
+        if (Hit.name == "Player")
         {
-            Hit.GetComponent<PlayerController>().setInWater(false);
+            Hit.GetComponent<BasePlayerController>().setInWater(false);
         }
     }
 }

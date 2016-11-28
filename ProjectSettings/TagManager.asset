@@ -7,6 +7,9 @@ TagManager:
   - Ground
   - Rain
   - Checkpoint
+  - Destructible
+  - MovableCloud
+  - MusicSlider
   layers:
   - Default
   - TransparentFX

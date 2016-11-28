@@ -20,8 +20,11 @@ public class BulletScript : MonoBehaviour
         rigidBody.velocity = speed;
     }
 
-    void OnTriggerEnter2D(Collider2D col)
+    void OnTriggerEnter2D(Collider2D collider)
     {
-        Destroy(gameObject);
+        if(!collider.name.Contains("Trigger"))
+        {
+            Destroy(gameObject);
+        }
     }
 }
