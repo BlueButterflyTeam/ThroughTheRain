@@ -72,6 +72,14 @@ public class WaterPlayerController : BasePlayerController {
 
         if(currentForm == forms.Earth)
         {
+            // Sound effect
+            try
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(earthquakeSound);
+            }
+            catch
+            { }
+
             // Visual effect
             GameObject.Find("Main Camera").GetComponent<CameraScript>().shake(1);
 

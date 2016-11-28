@@ -393,7 +393,10 @@ public abstract class BasePlayerController : MonoBehaviour
     {
         immobilize();
         gameOverText.gameObject.SetActive(true);
+        gameOverText.transform.parent.transform.GetChild(0).GetComponent<Timer>().stopTimer();
         keysEnabled = false;
+
+        rigidBody.isKinematic = true;
 
         try
         {
@@ -401,16 +404,20 @@ public abstract class BasePlayerController : MonoBehaviour
         }
         catch
         { }
-
+        
         StartCoroutine(Respawn(3));
     }
 
     private IEnumerator Respawn(float time)
     {
         yield return new WaitForSeconds(time);
+        
+        changeForm(startForm);
+        rigidBody.isKinematic = false;
 
         keysEnabled = true;
         gameOverText.gameObject.SetActive(false);
+        gameOverText.transform.parent.transform.GetChild(0).GetComponent<Timer>().continueTimer();
 
         Vector3 respawn = GameObject.Find("RespawnPoint").transform.position;
         gameObject.transform.position = new Vector3(respawn.x, respawn.y, transform.position.z);
@@ -420,8 +427,6 @@ public abstract class BasePlayerController : MonoBehaviour
         heart1.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart2.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
         heart3.GetComponent<UnityEngine.UI.Image>().sprite = HeartSprite;
-
-        changeForm(startForm);
     }
 
     public void updateHearts()

@@ -1322,6 +1322,11 @@ Prefab:
       propertyPath: numberOfFormsInLevel
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011300702774, guid: 9e038857848242c44a02e1a319645a02,
+        type: 2}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 8300000, guid: cf14ba030963b4624a3ca366c77028f4, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e038857848242c44a02e1a319645a02, type: 2}
   m_IsPrefabParent: 0

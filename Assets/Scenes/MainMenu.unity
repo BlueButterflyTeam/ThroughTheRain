@@ -870,8 +870,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2371b9d8c87fb1f4e8609141ac7f9303, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  loadingBar: {fileID: 0}
-  loadingPanel: {fileID: 0}
+  loadingBar: {fileID: 1048714088}
+  loadingPanel: {fileID: 1832657763}
 --- !u!1 &306713062
 GameObject:
   m_ObjectHideFlags: 0

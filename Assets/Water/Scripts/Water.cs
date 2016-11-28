@@ -38,6 +38,15 @@ public class Water : MonoBehaviour
     public float width;
     public float depth;
 
+    public AudioClip plop1;
+    public AudioClip plop2;
+    public AudioClip plop3;
+    public AudioClip plop4;
+    public AudioClip plop5;
+    public AudioClip plop6;
+    public AudioClip plop7;
+    public AudioClip plop8;
+
 
     void Start()
     {
@@ -222,8 +231,17 @@ public class Water : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D Hit)
     {
+        
+
         if (Hit.name == "Player")
         {
+            try
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(plop1, plop2, plop3, plop4, plop5, plop6, plop7, plop8);
+            }
+            catch
+            { }
+
             Hit.GetComponent<BasePlayerController>().setInWater(true);
         }
     }
@@ -232,6 +250,13 @@ public class Water : MonoBehaviour
     {
         if (Hit.name == "Player")
         {
+            try
+            {
+                GameObject.Find("AudioManager").GetComponent<AudioManager>().RandomizeSfx(plop1, plop2, plop3, plop4, plop5, plop6, plop7, plop8);
+            }
+            catch
+            { }
+
             Hit.GetComponent<BasePlayerController>().setInWater(false);
         }
     }

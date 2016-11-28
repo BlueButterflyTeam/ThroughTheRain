@@ -9,7 +9,7 @@ public class SpikeScript : MonoBehaviour {
         {
             // Knock up the player
             Rigidbody2D rigidbody = other.GetComponent<Rigidbody2D>();
-            rigidbody.AddForce(new Vector2(0, 700));
+            rigidbody.AddForce(new Vector2(0, 500));
 
             other.GetComponent<BasePlayerController>().getHit();
         }

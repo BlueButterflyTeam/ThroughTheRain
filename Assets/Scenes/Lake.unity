@@ -1074,7 +1074,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -21.353973, y: 19.966843}
+  m_AnchoredPosition: {x: -21.353973, y: 18.41}
   m_SizeDelta: {x: 892, y: 524}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1001 &201828454
@@ -1436,6 +1436,38 @@ Prefab:
       propertyPath: depth
       value: -20
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop1
+      value: 
+      objectReference: {fileID: 8300000, guid: b66d3dfcde0722744ba0ad91ff176344, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop2
+      value: 
+      objectReference: {fileID: 8300000, guid: 0b23c1af3bf8a71448ed83fce3e71b8c, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop3
+      value: 
+      objectReference: {fileID: 8300000, guid: 4724b2912974d034995daab91c6e1b97, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop4
+      value: 
+      objectReference: {fileID: 8300000, guid: 3d486b989bfe4134fa27ffc3121dbdfc, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop6
+      value: 
+      objectReference: {fileID: 8300000, guid: 6b84f6581b1a9664382908f046efba1f, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop5
+      value: 
+      objectReference: {fileID: 8300000, guid: 64ff625a943d69648b317043a87535a7, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop7
+      value: 
+      objectReference: {fileID: 8300000, guid: 9488fa24462fe0746ae444d7699b1bcc, type: 3}
+    - target: {fileID: 11400000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
+      propertyPath: plop8
+      value: 
+      objectReference: {fileID: 8300000, guid: d0df9ae716643234f86b2d8b1feecef1, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: dbda2ebfe2644284192c36b92595e6a1, type: 2}
   m_IsPrefabParent: 0
@@ -2041,7 +2073,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.6
   m_Text: 'Your powers are useless here
 
     You''re on your own'
@@ -2391,6 +2423,11 @@ Prefab:
       propertyPath: numberOfFormsInLevel
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011300702774, guid: 9e038857848242c44a02e1a319645a02,
+        type: 2}
+      propertyPath: music
+      value: 
+      objectReference: {fileID: 8300000, guid: da7a3cc8aa50c4895a006f130f7880c3, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9e038857848242c44a02e1a319645a02, type: 2}
   m_IsPrefabParent: 0
@@ -3290,7 +3327,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0c8f4da51ceb98248837af94e2746369, type: 3}
-    m_FontSize: 150
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -3300,7 +3337,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.6
   m_Text: 'But you can still move forward
 
     Like, with a water boost'
@@ -4061,18 +4098,18 @@ MonoBehaviour:
   moveSpeed: 0
   jumpHeight: 0
   gameWorld: {fileID: 408036274}
-  chargeSound: {fileID: 0}
-  earthquakeSound: {fileID: 0}
-  fireballSound: {fileID: 0}
-  waterPulseSound: {fileID: 0}
-  jumpSound: {fileID: 0}
-  playerHitSound: {fileID: 0}
-  windSound: {fileID: 0}
-  deathSound: {fileID: 0}
-  popSound1: {fileID: 0}
-  popSound2: {fileID: 0}
-  popSound3: {fileID: 0}
-  popSound4: {fileID: 0}
+  chargeSound: {fileID: 8300000, guid: 71fee950ed8567940aea23d26d9b5e12, type: 3}
+  earthquakeSound: {fileID: 8300000, guid: 4a99c5bfeef4f7947acfc34a5de8467c, type: 3}
+  fireballSound: {fileID: 8300000, guid: 668e04d781435154db713999e3b8631e, type: 3}
+  waterPulseSound: {fileID: 8300000, guid: 4104870c4b7cecb4f928841005413cdb, type: 3}
+  jumpSound: {fileID: 8300000, guid: 88df867ec1e1cb642a7c5a65cfb4ac19, type: 3}
+  playerHitSound: {fileID: 8300000, guid: 1fae4e5c63b19934f945ba7595ad7b83, type: 3}
+  windSound: {fileID: 8300000, guid: 526d22757a2ba5c42a3cbc3d42393d6a, type: 3}
+  deathSound: {fileID: 8300000, guid: c469696245215854c894bdd983166708, type: 3}
+  popSound1: {fileID: 8300000, guid: 9c9a1c8dfb5191044bfc9f8bac7340bb, type: 3}
+  popSound2: {fileID: 8300000, guid: 0fb57dbe58d8b4e4189d0e2c3e891256, type: 3}
+  popSound3: {fileID: 8300000, guid: c9f3235b71ecaf94fb88464eabb080d1, type: 3}
+  popSound4: {fileID: 8300000, guid: 450b259d1c5f47a4b99c28ec853f6caf, type: 3}
 --- !u!61 &1168365131
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4144,7 +4181,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1168365129}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.1, y: 15.5, z: -6}
+  m_LocalPosition: {x: -3.04, y: 14.66, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_Children:
@@ -4954,7 +4991,7 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0c8f4da51ceb98248837af94e2746369, type: 3}
-    m_FontSize: 150
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -4964,7 +5001,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.6
   m_Text: 'Your jump may have
 
     changed a little'
@@ -5331,7 +5368,7 @@ RectTransform:
   m_RootOrder: 2
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -21.353973, y: 18.146843}
+  m_AnchoredPosition: {x: -21.353973, y: 16.59}
   m_SizeDelta: {x: 892, y: 524}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1610617857
@@ -5541,7 +5578,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.6
   m_Text: 'You remember air goes up in
 
     water, right?'
@@ -6856,7 +6893,7 @@ MonoBehaviour:
     m_RichText: 1
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
-    m_LineSpacing: 1
+    m_LineSpacing: 0.6
   m_Text: "Maybe even more with \na small jump"
 --- !u!222 &1872112891
 CanvasRenderer:
