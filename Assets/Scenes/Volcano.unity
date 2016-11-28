@@ -1500,6 +1500,11 @@ Prefab:
       propertyPath: m_Name
       value: Monster (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 212000013621956776, guid: 1e3b06acd20cc0d4b96e8439dfb53503,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1e3b06acd20cc0d4b96e8439dfb53503, type: 2}
   m_IsPrefabParent: 0
@@ -5163,7 +5168,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 16.20209
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
       propertyPath: m_LocalPosition.z
@@ -5194,6 +5199,14 @@ Prefab:
       propertyPath: gameWonText
       value: 
       objectReference: {fileID: 2097569650}
+    - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d665159c5b598047b557920097b33c1, type: 2}
   m_IsPrefabParent: 0

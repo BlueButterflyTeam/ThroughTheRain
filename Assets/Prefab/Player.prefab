@@ -123,6 +123,7 @@ MonoBehaviour:
   gameOverText: {fileID: 114000013759094564, guid: 279f11353dc47924ab9951e96c8df2d2,
     type: 2}
   rainPrefab: {fileID: 191326, guid: b046278bb9b6e104790392b566667ba5, type: 2}
+  windPrefab: {fileID: 0}
   heart1: {fileID: 114000012252071916, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
   heart2: {fileID: 114000013405801870, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
   heart3: {fileID: 114000011106219556, guid: 279f11353dc47924ab9951e96c8df2d2, type: 2}
@@ -158,7 +159,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 226976827
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 486bff6a71cc9f648817d79d3f655014, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 85471f8e8dbb08b4bb57f32ed99de8a8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

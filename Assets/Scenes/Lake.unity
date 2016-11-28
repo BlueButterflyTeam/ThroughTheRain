@@ -2299,7 +2299,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -3.53
+      value: -4.26
       objectReference: {fileID: 0}
     - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
       propertyPath: m_LocalPosition.z
@@ -2330,6 +2330,29 @@ Prefab:
       propertyPath: gameWonText
       value: 
       objectReference: {fileID: 1042790474}
+    - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4000010367582170, guid: 1d665159c5b598047b557920097b33c1, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000011417329150, guid: 1d665159c5b598047b557920097b33c1,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000011417329150, guid: 1d665159c5b598047b557920097b33c1,
+        type: 2}
+      propertyPath: m_FlipX
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 212000011417329150, guid: 1d665159c5b598047b557920097b33c1,
+        type: 2}
+      propertyPath: m_FlipY
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1d665159c5b598047b557920097b33c1, type: 2}
   m_IsPrefabParent: 0
