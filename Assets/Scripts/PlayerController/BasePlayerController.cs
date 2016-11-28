@@ -359,6 +359,11 @@ public abstract class BasePlayerController : MonoBehaviour
         return isCharging;
     }
 
+    public bool isPlayerSmashing()
+    {
+        return smashing;
+    }
+
     protected abstract void environmentalPower();
 
     protected ArrayList getVisbleObjectWithTag(string tag)
