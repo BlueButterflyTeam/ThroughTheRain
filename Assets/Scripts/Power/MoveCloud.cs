@@ -8,7 +8,7 @@ public class MoveCloud : MonoBehaviour {
 
     void Update()
     {
-        if(moving)
+        if (moving)
         {
             int sign = movingLeft ? 1 : -1;
             transform.Translate(new Vector3(sign * .1f, 0));

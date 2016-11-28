@@ -384,7 +384,7 @@ public abstract class BasePlayerController : MonoBehaviour
         return results;
     }
 
-    protected void die()
+    public void die()
     {
         immobilize();
         gameOverText.gameObject.SetActive(true);

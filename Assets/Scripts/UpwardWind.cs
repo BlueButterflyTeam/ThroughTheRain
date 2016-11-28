@@ -55,7 +55,7 @@ public class UpwardWind : MonoBehaviour {
             if (other.gameObject.GetComponent<BasePlayerController>().getForm() != "Earth")
             {
                 float scale = Mathf.Pow((gameObject.transform.position.y / other.gameObject.transform.position.y), 2);
-                print(scale);
+                
                 Rigidbody2D rigidbody = other.gameObject.GetComponent<Rigidbody2D>();
                 rigidbody.AddForce(new Vector2(0, 10 * scale));
             }
